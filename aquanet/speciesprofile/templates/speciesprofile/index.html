@@ -14,14 +14,10 @@
             {% for species in species_list %}
                  <div class="species-div">
                      {% if species.common_name %}
-                        <div>{{species.common_name}}</div>
+                        <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
                      {% else %}
-                        <div>{{species.species}}</div>
+                        <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.species}}</a></div>
                      {% endif %}
-                     <div>Species: {{species.species}}</div>
-                     <div>Max Size: {{species.max_size}}</div>
-                     <div>Water: {{species.water_type}}</div>
-                     <div>ID: {{species.id}}</div>
                  </div>
             {% endfor %}
         {% endif %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'speciesprofile/css/style.css'%}">
+</head>
+<body>
+<a href="{% url 'speciesprofile:index' %}">Home</a>
+<div class="species-div">
+    {% if species.common_name %}
+        <div>Common Name: {{species.common_name}}</div>
+    {% endif %}
+    <div>Species: {{species.species}}</div>
+    <div>Max Size: {{species.max_size}}</div>
+    <div>Water: {{species.water_type}}</div>
+    <div>ID: {{species.id}}</div>
+</div>
+</body>
+</html>

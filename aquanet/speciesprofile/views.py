@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from .models import Profile
 
 
@@ -10,6 +9,8 @@ def index(request):
     return render(request, 'speciesprofile/index.html', context)
 
 
-def species_detail(request, species):
-    response = 'Detail of %s.'
-    return HttpResponse(response % species)
+def species_detail(request, species_id):
+    # species = Profile.objects.get(pk=species_id)
+    species = get_object_or_404(Profile, pk=species_id)
+    context = {'species': species}
+    return render(request, 'speciesprofile/detail.html', context)
