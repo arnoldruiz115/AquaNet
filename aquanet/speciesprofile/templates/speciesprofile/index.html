@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'speciesprofile/css/style.css'%}">
+</head>
+<body>
+    <div>Home page of AquaNet, using templates.</div>
+    <div>
+        <div>Profiles</div>
+        {% if species_list %}
+            {% for species in species_list %}
+                 <div class="species-div">
+                     {% if species.common_name %}
+                        <div>{{species.common_name}}</div>
+                     {% else %}
+                        <div>{{species.species}}</div>
+                     {% endif %}
+                     <div>Species: {{species.species}}</div>
+                     <div>Max Size: {{species.max_size}}</div>
+                     <div>Water: {{species.water_type}}</div>
+                     <div>ID: {{species.id}}</div>
+                 </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
