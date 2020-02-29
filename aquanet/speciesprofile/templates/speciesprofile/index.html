@@ -12,7 +12,7 @@
         <div>Profiles</div>
         {% if species_list %}
             {% for species in species_list %}
-                 <div class="species-div">
+                 <div class="species-prev">
                      {% if species.common_name %}
                         <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
                      {% else %}

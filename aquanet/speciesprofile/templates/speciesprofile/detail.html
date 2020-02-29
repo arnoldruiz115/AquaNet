@@ -9,13 +9,13 @@
 <body>
 <a href="{% url 'speciesprofile:index' %}">Home</a>
 <div class="species-div">
-    {% if species.common_name %}
-        <div>Common Name: {{species.common_name}}</div>
+    {% if profile.common_name %}
+        <div>Common Name: {{profile.common_name}}</div>
     {% endif %}
-    <div>Species: {{species.species}}</div>
-    <div>Max Size: {{species.max_size}}</div>
-    <div>Water: {{species.water_type}}</div>
-    <div>ID: {{species.id}}</div>
+    <div>Species: {{profile.species}}</div>
+    <div>Max Size: {{profile.max_size}}</div>
+    <div>Water: {{profile.water_type}}</div>
+    <div>ID: {{profile.id}}</div>
 </div>
 </body>
 </html>

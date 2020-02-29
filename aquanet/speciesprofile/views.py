@@ -1,16 +1,17 @@
 from django.shortcuts import render, get_object_or_404
+from django.views import generic
 from .models import Profile
 
 
 # Create your views here.
-def index(request):
-    species_list = Profile.objects.order_by('publish_date')
-    context = {'species_list': species_list}
-    return render(request, 'speciesprofile/index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'speciesprofile/index.html'
+    context_object_name = 'species_list'
+
+    def get_queryset(self):
+        return Profile.objects.order_by('publish_date')[:25]
 
 
-def species_detail(request, species_id):
-    # species = Profile.objects.get(pk=species_id)
-    species = get_object_or_404(Profile, pk=species_id)
-    context = {'species': species}
-    return render(request, 'speciesprofile/detail.html', context)
+class DetailView(generic.DetailView):
+    model = Profile
+    template_name = 'speciesprofile/detail.html'
