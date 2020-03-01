@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'speciesprofile/css/style.css'%}">
-</head>
-<body>
+{% extends 'speciesprofile/base.html'%}
+
+{% block content %}
 <a href="{% url 'speciesprofile:index' %}">Home</a>
 <div class="species-div">
     {% if profile.common_name %}
@@ -15,7 +9,5 @@
     <div>Species: {{profile.species}}</div>
     <div>Max Size: {{profile.max_size}}</div>
     <div>Water: {{profile.water_type}}</div>
-    <div>ID: {{profile.id}}</div>
 </div>
-</body>
-</html>
+{% endblock %}
