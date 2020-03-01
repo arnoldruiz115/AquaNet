@@ -1,7 +1,6 @@
 {% extends 'speciesprofile/base.html'%}
 
 {% block content %}
-<a href="{% url 'speciesprofile:index' %}">Home</a>
 <div class="species-div">
     {% if profile.common_name %}
         <div>Common Name: {{profile.common_name}}</div>
