@@ -1,12 +1,14 @@
 {% extends 'speciesprofile/base.html'%}
 
 {% block content %}
-<div class="species-div">
-    {% if profile.common_name %}
-        <div>Common Name: {{profile.common_name}}</div>
-    {% endif %}
-    <div>Species: {{profile.species}}</div>
-    <div>Max Size: {{profile.max_size}}</div>
-    <div>Water: {{profile.water_type}}</div>
+<div class="container">
+    <div class="species-div">
+        {% if profile.common_name %}
+            <div>Common Name: {{profile.common_name}}</div>
+        {% endif %}
+        <div>Species: {{profile.species}}</div>
+        <div>Max Size: {{profile.max_size}}</div>
+        <div>Water: {{profile.water_type}}</div>
+    </div>
 </div>
 {% endblock %}

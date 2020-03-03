@@ -20,7 +20,7 @@
     margin-top: 10px;
     text-align: center;
     padding: 10px;
-    box-shadow: 0 0 10px rgba(($secondary), 0.5);
+    box-shadow: 0 0 10px rgba(($secondary), 0.75);
     transition-duration: .3s;
     &:hover{
         background: white;
@@ -29,4 +29,10 @@
             color:black
         }
     }
+}
+
+.index-bg{
+    background-image: url("clownfish.jpg");
+    background-size: cover;
+    height: 1000px;
 }
