@@ -1,22 +1,20 @@
 {% extends 'speciesprofile/base.html'%}
 {% block content %}
-    <div class="index-bg">
-        <div class="container">
-            <div>Home page of AquaNet.</div>
-            <div>
-                <div>Profiles</div>
-                {% if species_list %}
-                    {% for species in species_list %}
-                         <div class="species-prev">
-                             {% if species.common_name %}
-                                <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
-                             {% else %}
-                                <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.species}}</a></div>
-                             {% endif %}
-                         </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+<div class="card bg-secondary-clear">
+    <div>Home page of AquaNet.</div>
+    <div>
+        <div>Profiles</div>
+        {% if species_list %}
+        {% for species in species_list %}
+        <div class="species-prev">
+            {% if species.common_name %}
+            <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
+            {% else %}
+            <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.species}}</a></div>
+            {% endif %}
         </div>
+        {% endfor %}
+        {% endif %}
     </div>
+</div>
 {% endblock %}

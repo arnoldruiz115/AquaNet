@@ -3,7 +3,7 @@
     height: fit-content;
     width: fit-content;
     border: solid black;
-    margin-top: 10px;
+    padding-top: 10px;
     text-align: center;
     padding: 10px;
 }
@@ -35,4 +35,9 @@
     background-image: url("clownfish.jpg");
     background-size: cover;
     height: 1000px;
+}
+
+
+.bg-secondary-clear{
+    background: rgba(($secondary), 0.75);
 }

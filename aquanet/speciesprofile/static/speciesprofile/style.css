@@ -10773,7 +10773,7 @@ a.text-dark:hover, a.text-dark:focus {
   width: -moz-fit-content;
   width: fit-content;
   border: solid black;
-  margin-top: 10px;
+  padding-top: 10px;
   text-align: center;
   padding: 10px;
 }
@@ -10812,5 +10812,9 @@ a.text-dark:hover, a.text-dark:focus {
   background-image: url("clownfish.jpg");
   background-size: cover;
   height: 1000px;
+}
+
+.bg-secondary-clear {
+  background: rgba(208, 240, 255, 0.75);
 }
 /*# sourceMappingURL=style.css.map */
