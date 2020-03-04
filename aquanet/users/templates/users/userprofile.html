@@ -1,6 +1,11 @@
 {% extends "speciesprofile/base.html" %}
 {% block content %}
 <div class="card bg-secondary-clear">
-    <h2>{{ user.username }}'s profile</h2>
+    <div>
+        <h2>{{ user.username }}'s profile</h2>
+    </div>
+    <div>
+        <button class="btn btn-primary">Upload Species</button>
+    </div>
 </div>
 {% endblock content %}
