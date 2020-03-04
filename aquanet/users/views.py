@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import UserRegisterForm
 
 
@@ -18,6 +18,6 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-@login_required
-def user_profile(request):
-    return render(request, 'users/userprofile.html')
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    return render(request, 'users/userprofile.html', {'username': user})
