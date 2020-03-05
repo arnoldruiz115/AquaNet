@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
 from speciesprofile.forms import SpeciesProfileForm
+from speciesprofile.models import Profile
 
 
 # Create your views here.
@@ -21,6 +22,8 @@ def register(request):
 
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
+    if Profile.objects.filter(author=user):
+        posts = Profile.objects.filter(author=user).order_by('-publish_date')
     if request.method == 'POST':
         form = SpeciesProfileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -29,5 +32,5 @@ def user_profile(request, username):
             return redirect('speciesprofile:index')
     else:
         form = SpeciesProfileForm()
-    context = {'profile_username': user.username, 'form': form}
+    context = {'profile_username': user.username, 'form': form, 'posts': posts}
     return render(request, 'users/userprofile.html', context)

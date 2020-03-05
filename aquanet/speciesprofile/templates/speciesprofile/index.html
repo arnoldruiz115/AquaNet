@@ -1,9 +1,9 @@
 {% extends 'speciesprofile/base.html'%}
 {% block content %}
 <div class="card bg-secondary-clear">
-    <div>Home page of AquaNet.</div>
+    <h1>Home page of AquaNet.</h1>
     <div>
-        <div>Profiles</div>
+        <div>Recent Uploads</div>
         {% if species_list %}
             <div class="d-flex justify-content-around">
                 {% for species in species_list %}
@@ -21,6 +21,7 @@
                 {% endfor %}
             </div>
         {% endif %}
+        <div>Featured Uploads</div>
     </div>
 </div>
 {% endblock %}

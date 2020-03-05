@@ -7,11 +7,35 @@
     <div>
         <form method="post" action="#" enctype="multipart/form-data">
             {% if user.username == profile_username %}
-                {% csrf_token %}
-                {{ form }}
+                <button class="btn btn-primary">Upload New Species</button>
+                <div>
+                    {% csrf_token %}
+                    {{ form }}
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
             {% endif %}
-            <button class="btn btn-primary" type="submit">Upload Species</button>
         </form>
+        <div>
+            <h2>Posts</h2>
+            {% if posts %}
+                <div class="d-flex justify-content-around">
+                {% for post in posts %}
+                    <div class="species-prev">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="" height="100" width="100">
+                        {% endif %}
+                        {% if post.common_name %}
+                            <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>
+                        {% else %}
+                            <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.species}}</a></div>
+                        {% endif %}
+                        <small><a href="{% url 'users:profile' post.author %}">{{post.author}}</a></small>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
     </div>
 </div>
 {% endblock content %}

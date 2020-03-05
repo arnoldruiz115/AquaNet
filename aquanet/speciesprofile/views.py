@@ -9,7 +9,7 @@ class IndexView(generic.ListView):
     context_object_name = 'species_list'
 
     def get_queryset(self):
-        return Profile.objects.order_by('-publish_date')[:8]
+        return Profile.objects.order_by('-publish_date')[:4]
 
 
 class DetailView(generic.DetailView):
