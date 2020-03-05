@@ -5,15 +5,21 @@
     <div>
         <div>Profiles</div>
         {% if species_list %}
-        {% for species in species_list %}
-        <div class="species-prev">
-            {% if species.common_name %}
-            <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
-            {% else %}
-            <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.species}}</a></div>
-            {% endif %}
-        </div>
-        {% endfor %}
+            <div class="d-flex justify-content-around">
+                {% for species in species_list %}
+                    <div class="species-prev">
+                        {% if species.image %}
+                        <img src="{{ species.image.url }}" alt="" height="100" width="100">
+                        {% endif %}
+                        {% if species.common_name %}
+                        <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
+                        {% else %}
+                        <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.species}}</a></div>
+                        {% endif %}
+                        <small><a href="{% url 'users:profile' species.author %}">{{species.author}}</a></small>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
 </div>

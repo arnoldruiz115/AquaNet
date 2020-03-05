@@ -6,5 +6,5 @@ from . models import Profile
 class SpeciesProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['common_name', 'species', 'max_size', 'water_type']
+        fields = ['common_name', 'species', 'max_size', 'water_type', 'image',]
 

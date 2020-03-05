@@ -3,6 +3,9 @@
 {% block content %}
 <div class="container">
     <div class="species-div">
+        {% if profile.image %}
+            <img src="{{ profile.image.url }}" alt="">
+        {% endif %}
         {% if profile.common_name %}
             <div>Common Name: {{profile.common_name}}</div>
         {% endif %}

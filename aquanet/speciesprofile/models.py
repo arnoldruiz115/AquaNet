@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Profile(models.Model):
+    image = models.ImageField(upload_to='species-images', blank=True)
     common_name = models.CharField(max_length=200, blank=True)
     species = models.CharField(max_length=200)
     max_size = models.FloatField()

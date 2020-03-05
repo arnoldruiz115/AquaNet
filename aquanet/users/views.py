@@ -22,7 +22,7 @@ def register(request):
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
-        form = SpeciesProfileForm(request.POST)
+        form = SpeciesProfileForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.author = request.user
             form.save()
