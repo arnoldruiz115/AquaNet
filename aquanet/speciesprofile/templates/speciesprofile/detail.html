@@ -10,7 +10,7 @@
         <div>Max Size: {{profile.max_size}}</div>
         <div>Water: {{profile.water_type}}</div>
         <div>
-            <small class="text-muted"><a href="">{{profile.author}}</a></small>
+            <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
         </div>
 
     </div>

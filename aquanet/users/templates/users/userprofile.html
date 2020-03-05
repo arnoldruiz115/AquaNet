@@ -2,10 +2,16 @@
 {% block content %}
 <div class="card bg-secondary-clear">
     <div>
-        <h2>{{username}}'s profile</h2>
+        <h2>{{profile_username}}'s profile</h2>
     </div>
     <div>
-        <button class="btn btn-primary">Upload Species</button>
+        <form method="post" action="#">
+            {% if user.username == profile_username %}
+                {% csrf_token %}
+                {{ form }}
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Upload Species</button>
+        </form>
     </div>
 </div>
 {% endblock content %}
