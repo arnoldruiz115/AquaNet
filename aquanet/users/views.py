@@ -24,6 +24,8 @@ def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     if Profile.objects.filter(author=user):
         posts = Profile.objects.filter(author=user).order_by('-publish_date')
+    else:
+        posts = None
     if request.method == 'POST':
         form = SpeciesProfileForm(request.POST, request.FILES)
         if form.is_valid():

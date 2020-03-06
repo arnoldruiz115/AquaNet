@@ -11,7 +11,9 @@
                 <div>
                     {% csrf_token %}
                     {{ form }}
-                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
                 </div>
             {% endif %}
         </form>
