@@ -31,8 +31,9 @@ def user_profile(request, username):
         if form.is_valid():
             form.instance.author = request.user
             form.save()
-            return redirect('speciesprofile:index')
+            id = form.instance.pk
+            return redirect('speciesprofile:detail', id)
     else:
         form = SpeciesProfileForm()
-    context = {'profile_username': user.username, 'form': form, 'posts': posts}
+    context = {'profile_user': user, 'form': form, 'posts': posts}
     return render(request, 'users/userprofile.html', context)

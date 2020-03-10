@@ -2,39 +2,41 @@
 {% block content %}
 <div class="card bg-secondary-clear">
     <div>
-        <h2>{{profile_username}}'s profile</h2>
+        <h2>{{profile_user.username}}'s profile</h2>
     </div>
     <div>
+
+        {% if user == profile_user %}
         <form method="post" action="#" enctype="multipart/form-data">
-            {% if user.username == profile_username %}
-                <button class="btn btn-primary">Upload New Species</button>
+            <button class="btn btn-primary">Upload New Species</button>
+            <div>
+                {% csrf_token %}
+                {{ form }}
                 <div>
-                    {% csrf_token %}
-                    {{ form }}
-                    <div>
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
-            {% endif %}
+            </div>
         </form>
+        {% endif %}
+
         <div>
             <h2>Posts</h2>
             {% if posts %}
-                <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-around">
                 {% for post in posts %}
-                    <div class="species-prev">
-                        {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="" height="100" width="100">
-                        {% endif %}
-                        {% if post.common_name %}
-                            <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>
-                        {% else %}
-                            <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.species}}</a></div>
-                        {% endif %}
-                        <small><a href="{% url 'users:profile' post.author %}">{{post.author}}</a></small>
-                    </div>
-                {% endfor %}
+                <div class="species-prev">
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="" height="100" width="100">
+                    {% endif %}
+                    {% if post.common_name %}
+                    <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>
+                    {% else %}
+                    <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.species}}</a></div>
+                    {% endif %}
+                    <small><a href="{% url 'users:profile' post.author %}">{{post.author}}</a></small>
                 </div>
+                {% endfor %}
+            </div>
             {% endif %}
         </div>
 

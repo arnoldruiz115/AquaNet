@@ -3,6 +3,21 @@
 {% block content %}
 <div class="container">
     <div class="species-div">
+        {% if profile.author == user %}
+            <div>
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn btn-secondary">Options</button>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                            <a class="dropdown-item" href="{% url 'speciesprofile:update' profile.id %}">Edit Post</a>
+                            <a class="dropdown-item" href="{% url 'speciesprofile:delete' profile.id %}">Delete Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         {% if profile.image %}
             <img src="{{ profile.image.url }}" alt="">
         {% endif %}
