@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from .models import Profile
 
 
@@ -11,6 +13,25 @@ class IndexView(ListView):
 
     def get_queryset(self):
         return Profile.objects.order_by('-publish_date')[:4]
+
+
+class SearchResultView(ListView):
+    template_name = 'speciesprofile/searchresults.html'
+    context_object_name = 'result_list'
+
+    def get_queryset(self):
+        search = self.kwargs['common_name']
+        return Profile.objects.filter(Q(common_name__contains=search) | Q(species__contains=search))
+
+
+@require_http_methods(["POST"])
+def search_form_page(request):
+    if request.method == 'GET':
+        return redirect('speciesprofile:index')
+    if request.method == 'POST':
+        search = request.POST['SearchSpecies']
+        return redirect('speciesprofile:search', search)
+    return render(request, 'speciesprofile/_searchform.html')
 
 
 class SpeciesDetailView(DetailView):
