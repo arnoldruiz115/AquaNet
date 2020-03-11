@@ -1,7 +1,7 @@
 {% extends 'speciesprofile/base.html'%}
 {% block content %}
 <div class="card bg-secondary-clear">
-    <div>Search results for: </div>
+    <div>Search results for "{{ search }}"</div>
     <div>
         {% if result_list %}
             <div class="d-flex flex-column">
@@ -19,6 +19,8 @@
                     </div>
                 {% endfor %}
             </div>
+        {% else %}
+        <div>No Results Found</div>
         {% endif %}
     </div>
 </div>

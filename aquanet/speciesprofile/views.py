@@ -19,6 +19,11 @@ class SearchResultView(ListView):
     template_name = 'speciesprofile/searchresults.html'
     context_object_name = 'result_list'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SearchResultView, self).get_context_data(**kwargs)
+        context.update({'search': self.kwargs['common_name']})
+        return context
+
     def get_queryset(self):
         search = self.kwargs['common_name']
         return Profile.objects.filter(Q(common_name__contains=search) | Q(species__contains=search))
@@ -27,7 +32,7 @@ class SearchResultView(ListView):
 @require_http_methods(["POST"])
 def search_form_page(request):
     if request.method == 'GET':
-        return redirect('speciesprofile:index')
+        return render(request, 'speciesprofile/_searchform.html')
     if request.method == 'POST':
         search = request.POST['SearchSpecies']
         return redirect('speciesprofile:search', search)
