@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
 from django.db.models import Q
 from .models import Profile
 
@@ -29,14 +30,19 @@ class SearchResultView(ListView):
         return Profile.objects.filter(Q(common_name__contains=search) | Q(species__contains=search))
 
 
-@require_http_methods(["POST"])
 def search_form_page(request):
     if request.method == 'GET':
-        return render(request, 'speciesprofile/_searchform.html')
+        return render(request, 'speciesprofile/searchresults.html')
     if request.method == 'POST':
         search = request.POST['SearchSpecies']
+        if not search:
+            messages.warning(request, 'Can not search empty string.')
+            return render(request, 'speciesprofile/searchresults.html')
         return redirect('speciesprofile:search', search)
-    return render(request, 'speciesprofile/_searchform.html')
+
+
+def search_advanced(request):
+    return render(request, 'speciesprofile/advancedsearch.html')
 
 
 class SpeciesDetailView(DetailView):

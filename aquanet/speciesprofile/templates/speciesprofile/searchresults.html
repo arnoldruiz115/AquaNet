@@ -1,27 +1,36 @@
 {% extends 'speciesprofile/base.html'%}
 {% block content %}
 <div class="card bg-secondary-clear">
+    {%  if search %}
     <div>Search results for "{{ search }}"</div>
     <div>
         {% if result_list %}
-            <div class="d-flex flex-column">
-                {% for post in result_list %}
-                    <div class="species-prev">
-                        {% if post.image %}
-                        <img src="{{ post.image.url }}" alt="" height="100" width="100">
-                        {% endif %}
-                        {% if post.common_name %}
-                        <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>
-                        {% else %}
-                        <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.species}}</a></div>
-                        {% endif %}
-                        <small><a href="{% url 'users:profile' post.author %}">{{post.author}}</a></small>
-                    </div>
-                {% endfor %}
+        <div class="d-flex flex-column">
+            {% for post in result_list %}
+            <div class="species-prev">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="" height="100" width="100">
+                {% endif %}
+                {% if post.common_name %}
+                <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>
+                {% else %}
+                <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.species}}</a></div>
+                {% endif %}
+                <small><a href="{% url 'users:profile' post.author %}">{{post.author}}</a></small>
             </div>
+            {% endfor %}
+        </div>
         {% else %}
         <div>No Results Found</div>
         {% endif %}
     </div>
+    {% else %}
+    <div>Enter a species to search</div>
+    <form class="form-inline my-2 my-lg-0" method="POST" action="">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="text" name="SearchSpecies" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" name="SearchButton" type="submit">Search</button>
+    </form>
+    {% endif %}
 </div>
 {% endblock %}
