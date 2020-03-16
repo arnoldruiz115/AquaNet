@@ -1,4 +1,5 @@
 {% extends "speciesprofile/base.html" %}
+{% load static %}
 {% load widget_tweaks %}
 {% block content %}
 <div class="card bg-secondary-clear">
@@ -8,40 +9,41 @@
     <div>
 
         {% if user == profile_user %}
-        <form method="post" action="#" enctype="multipart/form-data">
-            <button class="btn btn-outline-info">Upload New Species</button>
-            <legend class="border-bottom mb-4">Upload Species</legend>
-            <div>
-                {% csrf_token %}
-                {{ form.non_field_errors }}
-                <div class="form-group">
-                    {{ form.common_name.errors }}
-                    {% render_field form.common_name class="form-control w-75 mx-2" placeholder="Common Name (If any)"%}
-                </div>
-                <div class="form-group">
-                    {{ form.species.errors }}
-                    {% render_field form.species class="form-control w-75 mx-2" placeholder="Species"%}
-                </div>
-                <div class="form-group">
-                    {{ form.max_size.errors }}
-                    {% render_field form.max_size class="form-control w-75 mx-2" placeholder="Max Size"%}
-                </div>
-                <div class="form-group">
-                    {{ form.water_type.errors }}
-                    {% render_field form.water_type class="form-control w-75 mx-2" placeholder="Water Type"%}
-                </div>
-                <div class="form-group">
-                    {{ form.species.errors }}
-                    <label for="{{ form.image.id_for_label }}">Upload Image:</label>
-                    {{ form.image }}
-                </div>
+        <button id="show-upload-button" class="btn btn-outline-info">Upload New Species</button>
+        <div id="upload-form-id" style="display: none;">
+            <form method="post" action="#" enctype="multipart/form-data">
+                <legend class="border-bottom mb-4">Upload Species</legend>
                 <div>
-                    <button class="btn btn-outline-info" type="submit">Submit</button>
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        {{ form.common_name.errors }}
+                        {% render_field form.common_name class="form-control w-75 mx-2" placeholder="Common Name (If any)"%}
+                    </div>
+                    <div class="form-group">
+                        {{ form.species.errors }}
+                        {% render_field form.species class="form-control w-75 mx-2" placeholder="Species"%}
+                    </div>
+                    <div class="form-group">
+                        {{ form.max_size.errors }}
+                        {% render_field form.max_size class="form-control w-75 mx-2" placeholder="Max Size"%}
+                    </div>
+                    <div class="form-group">
+                        {{ form.water_type.errors }}
+                        {% render_field form.water_type class="form-control w-75 mx-2" placeholder="Water Type"%}
+                    </div>
+                    <div class="form-group">
+                        {{ form.species.errors }}
+                        <label for="{{ form.image.id_for_label }}">Upload Image:</label>
+                        {{ form.image }}
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
         {% endif %}
-
+        </div>
         <div>
             <h2>Posts</h2>
             {% if posts %}
@@ -66,3 +68,6 @@
     </div>
 </div>
 {% endblock content %}
+{% block scripts %}
+<script src="{% static 'speciesprofile/js/uploadform.js'%}"></script>
+{% endblock scripts %}
