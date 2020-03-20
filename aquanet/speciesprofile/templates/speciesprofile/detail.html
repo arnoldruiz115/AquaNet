@@ -30,6 +30,10 @@
         <div>
             <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
         </div>
+        <div>{{profile.pk}}</div>
+        {% for image in images %}
+            <img src="{{ image.image.url }}" alt="">
+        {% endfor %}
 
     </div>
 </div>

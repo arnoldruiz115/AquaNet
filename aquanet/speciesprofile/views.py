@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
-from .models import Profile
+from .models import Profile, ProfileImage
 
 
 # Create your views here.
@@ -48,6 +48,13 @@ def search_advanced(request):
 class SpeciesDetailView(DetailView):
     model = Profile
     template_name = 'speciesprofile/detail.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SpeciesDetailView, self).get_context_data(**kwargs)
+        profile = self.get_object()
+        images = ProfileImage.objects.filter(profile=profile.pk)
+        context.update({'images': images})
+        return context
 
 
 class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

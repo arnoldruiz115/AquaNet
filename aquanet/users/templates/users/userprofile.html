@@ -37,6 +37,13 @@
                         <label for="{{ form.image.id_for_label }}">Upload Image:</label>
                         {{ form.image }}
                     </div>
+
+                    <!-- Additional images -->
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {{ form }}
+                    {% endfor %}
+
                     <div>
                         <button class="btn btn-outline-info" type="submit">Submit</button>
                     </div>
