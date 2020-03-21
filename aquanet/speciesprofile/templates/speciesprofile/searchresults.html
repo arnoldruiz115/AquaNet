@@ -8,8 +8,8 @@
         <div class="d-flex flex-column">
             {% for post in result_list %}
             <div class="species-prev">
-                {% if post.image %}
-                <img src="{{ post.image.url }}" alt="" height="100" width="100">
+                {% if post.thumbnail_url %}
+                <img src="{{ post.thumbnail_url }}" alt="" height="100" width="100">
                 {% endif %}
                 {% if post.common_name %}
                 <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>

@@ -32,12 +32,6 @@
                         {{ form.water_type.errors }}
                         {% render_field form.water_type class="form-control w-75 mx-2" placeholder="Water Type"%}
                     </div>
-                    <div class="form-group">
-                        {{ form.species.errors }}
-                        <label for="{{ form.image.id_for_label }}">Upload Image:</label>
-                        {{ form.image }}
-                    </div>
-
                     <!-- Additional images -->
                     {{ formset.management_form }}
                     {% for form in formset %}
@@ -57,8 +51,8 @@
             <div class="d-flex justify-content-around">
                 {% for post in posts %}
                 <div class="species-prev">
-                    {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="" height="100" width="100">
+                    {% if post.thumbnail_url %}
+                    <img src="{{ post.thumbnail_url }}" alt="" height="100" width="100">
                     {% endif %}
                     {% if post.common_name %}
                     <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>

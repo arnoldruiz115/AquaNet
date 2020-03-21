@@ -6,7 +6,7 @@ from . models import Profile, ProfileImage
 class SpeciesProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['common_name', 'species', 'max_size', 'water_type', 'image']
+        fields = ['common_name', 'species', 'max_size', 'water_type']
 
 
 class SpeciesImageForm(ModelForm):

@@ -61,7 +61,7 @@ class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
     template_name = 'speciesprofile/update.html'
 
-    fields = ['common_name', 'species', 'max_size', 'water_type', 'image', ]
+    fields = ['common_name', 'species', 'max_size', 'water_type']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

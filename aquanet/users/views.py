@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.forms import modelformset_factory
+from django.forms import formset_factory
 from .forms import UserRegisterForm
 from speciesprofile.forms import SpeciesProfileForm, SpeciesImageForm
 from speciesprofile.models import Profile, ProfileImage
@@ -22,7 +22,7 @@ def register(request):
 
 
 def user_profile(request, username):
-    ProfileImageFormset = modelformset_factory(ProfileImage, form=SpeciesImageForm, extra=3)
+    ProfileImageFormset = formset_factory(form=SpeciesImageForm, extra=3)
     user = get_object_or_404(User, username=username)
     if Profile.objects.filter(author=user):
         posts = Profile.objects.filter(author=user).order_by('-publish_date')

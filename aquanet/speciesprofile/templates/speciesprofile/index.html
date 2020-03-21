@@ -8,8 +8,8 @@
             <div class="d-flex justify-content-around">
                 {% for species in species_list %}
                     <div class="species-prev">
-                        {% if species.image %}
-                        <img src="{{ species.image.url }}" alt="" height="100" width="100">
+                        {% if species.thumbnail_url %}
+                        <img src="{{ species.thumbnail_url }}" alt="" height="100" width="100">
                         {% endif %}
                         {% if species.common_name %}
                         <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
