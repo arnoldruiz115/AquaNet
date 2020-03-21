@@ -29,7 +29,7 @@ def user_profile(request, username):
     else:
         posts = None
     if request.method == 'POST':
-        form = SpeciesProfileForm(request.POST, request.FILES)
+        form = SpeciesProfileForm(request.POST)
         formset = ProfileImageFormset(request.POST, request.FILES)
         if form.is_valid() and formset.is_valid():
             form.instance.author = request.user

@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
-from django.views.decorators.http import require_http_methods
+from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
 from .models import Profile, ProfileImage
+from .forms import SpeciesProfileForm
 
 
 # Create your views here.
@@ -62,6 +63,24 @@ class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'speciesprofile/update.html'
 
     fields = ['common_name', 'species', 'max_size', 'water_type']
+
+    ImagesFormset = inlineformset_factory(Profile, ProfileImage, fields=['image'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SpeciesUpdateView, self).get_context_data(**kwargs)
+        profile = self.get_object()
+        formset = self.ImagesFormset(instance=profile)
+        context.update({'formset': formset})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        profile = self.get_object()
+        form = SpeciesProfileForm(request.POST, instance=profile)
+        formset = self.ImagesFormset(request.POST, request.FILES, instance=profile)
+        if formset.is_valid() and form.is_valid():
+            formset.save()
+            form.save()
+        return redirect('speciesprofile:detail', profile.id)
 
     def form_valid(self, form):
         form.instance.author = self.request.user

@@ -25,7 +25,7 @@
                 </div>
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    {{ form }}
+                    {{ form.as_p }}
                 {% endfor %}
                 <div>
                     <button class="btn btn-outline-info" type="submit">Submit</button>
