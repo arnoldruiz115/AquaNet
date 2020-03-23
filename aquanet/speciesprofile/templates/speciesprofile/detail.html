@@ -18,8 +18,8 @@
                 </div>
             </div>
         {% endif %}
-        {% if profile.image %}
-            <img src="{{ profile.image.url }}" alt="">
+        {% if profile.thumbnail_url %}
+            <img src="{{ profile.thumbnail_url }}" alt="">
         {% endif %}
         {% if profile.common_name %}
             <div>Common Name: {{profile.common_name}}</div>
@@ -32,7 +32,9 @@
         </div>
         <div>{{profile.pk}}</div>
         {% for image in images %}
+            {% if image.image %}
             <img src="{{ image.image.url }}" alt="">
+            {% endif %}
         {% endfor %}
 
     </div>

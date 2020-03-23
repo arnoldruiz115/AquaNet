@@ -25,7 +25,21 @@
                 </div>
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    {{ form.as_p }}
+                    <div>
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        {% if form.instance.image %}
+                        <img src="{{form.instance.image.url}}" alt="">
+                        {{ form.delete}}
+                        <br>
+                        <button type="button">Delete</button>
+                        {% else %}
+                        <div>Add Image</div>
+                        {{ form.image }}
+                        {% endif %}
+
+                    </div>
                 {% endfor %}
                 <div>
                     <button class="btn btn-outline-info" type="submit">Submit</button>
