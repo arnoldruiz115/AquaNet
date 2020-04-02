@@ -18,9 +18,6 @@
                 </div>
             </div>
         {% endif %}
-        {% if profile.thumbnail_url %}
-            <img src="{{ profile.thumbnail_url }}" alt="">
-        {% endif %}
         {% if profile.common_name %}
             <div>Common Name: {{profile.common_name}}</div>
         {% endif %}
@@ -30,7 +27,6 @@
         <div>
             <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
         </div>
-        <div>{{profile.pk}}</div>
         {% for image in images %}
             {% if image.image %}
             <img src="{{ image.image.url }}" alt="">

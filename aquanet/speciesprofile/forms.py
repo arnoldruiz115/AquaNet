@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Form
-from django.contrib.auth.models import User
+from django.forms import inlineformset_factory, formset_factory
 from . models import Profile, ProfileImage
 
 
@@ -13,3 +13,7 @@ class SpeciesImageForm(ModelForm):
     class Meta:
         model = ProfileImage
         fields = ['image']
+
+
+ProfileImageFormset = formset_factory(form=SpeciesImageForm, extra=1)
+ImagesFormset = inlineformset_factory(Profile, ProfileImage, fields=['image'], extra=1)

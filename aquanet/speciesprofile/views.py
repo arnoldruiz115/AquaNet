@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
-from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
 from .models import Profile, ProfileImage
-from .forms import SpeciesProfileForm
+from .forms import SpeciesProfileForm, ImagesFormset
 
 
 # Create your views here.
@@ -64,19 +63,17 @@ class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     fields = ['common_name', 'species', 'max_size', 'water_type']
 
-    ImagesFormset = inlineformset_factory(Profile, ProfileImage, fields=['image'], extra=1)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SpeciesUpdateView, self).get_context_data(**kwargs)
         profile = self.get_object()
-        formset = self.ImagesFormset(instance=profile)
+        formset = ImagesFormset(instance=profile)
         context.update({'formset': formset})
         return context
 
     def post(self, request, *args, **kwargs):
         profile = self.get_object()
         form = SpeciesProfileForm(request.POST, instance=profile)
-        formset = self.ImagesFormset(request.POST, request.FILES, instance=profile)
+        formset = ImagesFormset(request.POST, request.FILES, instance=profile)
         if formset.is_valid() and form.is_valid():
             formset.save()
             form.save()
