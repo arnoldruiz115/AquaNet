@@ -3,8 +3,18 @@
 {% block content %}
 <div class="card bg-secondary-clear">
     <form method="post" action="#" enctype="multipart/form-data">
-            <legend class="border-bottom mb-4">Update Species</legend>
-            <div>
+            <legend class="border-bottom mb-4">
+                <div>Update Species</div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'speciesprofile:images-formset' object.id %}">Images</a>
+                    </li>
+                </ul>
+            </legend>
+            <div id="form">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 <div class="form-group">
@@ -23,24 +33,7 @@
                     {{ form.water_type.errors }}
                     {% render_field form.water_type class="form-control w-75 mx-2" placeholder="Water Type"%}
                 </div>
-                {{ formset.management_form }}
-                {% for form in formset %}
-                    <div>
-                        {% for hidden in form.hidden_fields %}
-                            {{ hidden }}
-                        {% endfor %}
-                        {% if form.instance.image %}
-                        <img src="{{form.instance.image.url}}" alt="">
-                        {{ form.delete}}
-                        <br>
-                        <button type="button">Delete</button>
-                        {% else %}
-                        <div>Add Image</div>
-                        {{ form.image }}
-                        {% endif %}
-
-                    </div>
-                {% endfor %}
+                <div id="update-images"></div>
                 <div>
                     <button class="btn btn-outline-info" type="submit">Submit</button>
                 </div>

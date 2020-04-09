@@ -63,22 +63,6 @@ class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     fields = ['common_name', 'species', 'max_size', 'water_type']
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(SpeciesUpdateView, self).get_context_data(**kwargs)
-        profile = self.get_object()
-        formset = ImagesFormset(instance=profile)
-        context.update({'formset': formset})
-        return context
-
-    def post(self, request, *args, **kwargs):
-        profile = self.get_object()
-        form = SpeciesProfileForm(request.POST, instance=profile)
-        formset = ImagesFormset(request.POST, request.FILES, instance=profile)
-        if formset.is_valid() and form.is_valid():
-            formset.save()
-            form.save()
-        return redirect('speciesprofile:detail', profile.id)
-
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -88,6 +72,50 @@ class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+
+
+class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Profile
+    template_name = 'speciesprofile/_updateimagesformset.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SpeciesImagesFormset, self).get_context_data(**kwargs)
+        profile = self.get_object()
+        formset = ImagesFormset(instance=profile)
+        context.update({'formset': formset})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        profile = self.get_object()
+        formset = ImagesFormset(request.POST, request.FILES, instance=profile)
+        if formset.is_valid():
+            formset.save()
+        if request.POST.get("deleteBtn"):
+            image_id = int(request.POST.get("deleteBtn"))
+            if image_id in self.get_image_ids():
+                image = ProfileImage.objects.get(id=image_id)
+                print(image.order)
+                image.delete()
+                return redirect('speciesprofile:images-formset', profile.id)
+            else:
+                print("That is not allowed.")
+        if request.POST.get("uploadImage"):
+            return redirect('speciesprofile:images-formset', profile.id)
+        return redirect('speciesprofile:detail', profile.id)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+    def get_image_ids(self):
+        profile = self.get_object()
+        images = ProfileImage.objects.filter(profile=profile.pk)
+        image_ids = []
+        for image in images:
+            image_ids.append(image.id)
+        return image_ids
 
 
 class SpeciesDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

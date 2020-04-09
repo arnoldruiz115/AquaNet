@@ -32,18 +32,24 @@ class Profile(models.Model):
 class ProfileImage(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='species-images', blank=True)
-    order = models.IntegerField()
+    order = models.IntegerField(default=-1)
 
     def save(self, *args, **kwargs):
         # Modify model elements
-        images_count = ProfileImage.objects.filter(profile=self.profile.pk).count()
-        self.order = images_count
+        images_count = self.get_image_count()
+
+        if self.order == -1:
+            self.order = images_count
         super(ProfileImage, self).save(*args, **kwargs)
 
         # If profile has no images, first image will be the thumbnail. Do after image has been saved to get url
         if images_count == 0:
             self.profile.thumbnail_url = self.image.url
             self.profile.save()
+
+    def get_image_count(self):
+        images_count = ProfileImage.objects.filter(profile=self.profile.pk).count()
+        return images_count
 
     def __str__(self):
         if self.profile.common_name:

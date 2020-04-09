@@ -11,5 +11,6 @@ urlpatterns = [
     path('empty/search/', views.search_form_page, name='search-name'),
     path('species/<int:pk>/', views.SpeciesDetailView.as_view(), name='detail'),
     path('species/<int:pk>/update/', views.SpeciesUpdateView.as_view(), name='update'),
+    path('species/<int:pk>/update/images', views.SpeciesImagesFormset.as_view(), name='images-formset'),
     path('species/<int:pk>/delete/', views.SpeciesDeleteView.as_view(), name='delete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

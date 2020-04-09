@@ -1,0 +1,45 @@
+{% extends "speciesprofile/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="card bg-secondary-clear">
+    <form method="post" action="#" enctype="multipart/form-data">
+            <legend class="border-bottom mb-4">
+                <div>Update Species</div>
+                <ul class="nav nav-tabs update-tab">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'speciesprofile:update' object.id %}">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Images</a>
+                    </li>
+                </ul>
+            </legend>
+            <div id="images-formset">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                {% for form in formset %}
+                <div>
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% if form.instance.image %}
+                    <img src="{{form.instance.image.url}}" alt="">
+                    <br>
+                    <button type="submit" name="deleteBtn" value="{{form.instance.id}}">Delete</button>
+                    {% else %}
+                    <div>Add Image</div>
+                    {{ form.image }}
+                    <div>
+                        <button class="btn btn-outline-info" name="uploadImage" type="submit" value="upload">Add Image</button>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'speciesprofile/js/deleteimage.js'%}"></script>
+{% endblock scripts %}
