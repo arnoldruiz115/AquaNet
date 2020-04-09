@@ -94,7 +94,6 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             image_id = int(request.POST.get("deleteBtn"))
             if image_id in self.get_image_ids():
                 image = ProfileImage.objects.get(id=image_id)
-                print(image.order)
                 image.delete()
                 return redirect('speciesprofile:images-formset', profile.id)
             else:

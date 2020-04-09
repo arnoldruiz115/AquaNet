@@ -13,7 +13,7 @@ class Profile(models.Model):
     water_type = models.CharField(max_length=50)
     publish_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    thumbnail_url = models.TextField(blank=True)
+    thumbnail_url = models.TextField(default='/media/species-images/default.jpg', blank=True)
 
     def save(self, *args, **kwargs):
         # Modify model elements
@@ -46,6 +46,25 @@ class ProfileImage(models.Model):
         if images_count == 0:
             self.profile.thumbnail_url = self.image.url
             self.profile.save()
+
+    def delete(self, using=None, keep_parents=False):
+        position = self.order
+        super(ProfileImage, self).delete()
+        # If the first (thumbnail) image is being deleted, make the next image the thumbnail, if there is a next image
+        if position == 0:
+            if ProfileImage.objects.filter(profile=self.profile.pk, order=1):
+                next_image = ProfileImage.objects.get(profile=self.profile.pk, order=1)
+                self.profile.thumbnail_url = next_image.image.url
+                self.profile.save()
+            else:
+                self.profile.thumbnail_url = '/media/species-images/default.jpg'
+                self.profile.save()
+        # change order of remaining images
+        while position < self.get_image_count():
+            position += 1
+            next_image = ProfileImage.objects.get(profile=self.profile.pk, order=position)
+            next_image.order = position - 1
+            next_image.save()
 
     def get_image_count(self):
         images_count = ProfileImage.objects.filter(profile=self.profile.pk).count()
