@@ -43,7 +43,16 @@
                     <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'speciesprofile:search-name' %}">
                         {% csrf_token %}
                         <input class="form-control mr-sm-2" type="text" name="SearchSpecies" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                    <a class="dropdown-item" href="{% url 'speciesprofile:search-name' %}">Advanced Search</a>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

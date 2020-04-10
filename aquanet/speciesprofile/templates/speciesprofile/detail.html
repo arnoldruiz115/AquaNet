@@ -18,6 +18,41 @@
                 </div>
             </div>
         {% endif %}
+
+         <div class="container">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for image in images %}
+                        {% if image.image %}
+                            {% if forloop.counter0 == 0 %}
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            {% else %}
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}"></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for image in images %}
+                        {% if image.image %}
+                            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                                <img class="d-block" src="{{ image.image.url }}" alt="">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
         {% if profile.common_name %}
             <div>Common Name: {{profile.common_name}}</div>
         {% endif %}
@@ -27,11 +62,6 @@
         <div>
             <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
         </div>
-        {% for image in images %}
-            {% if image.image %}
-            <img src="{{ image.image.url }}" alt="">
-            {% endif %}
-        {% endfor %}
 
     </div>
 </div>
