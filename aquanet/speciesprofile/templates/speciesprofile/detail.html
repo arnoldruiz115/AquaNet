@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="species-div">
+    <div class="species-div w-100">
         {% if profile.author == user %}
             <div>
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -19,39 +19,38 @@
             </div>
         {% endif %}
 
-         <div class="container">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    {% for image in images %}
-                        {% if image.image %}
-                            {% if forloop.counter0 == 0 %}
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            {% else %}
-                                <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}"></li>
-                            {% endif %}
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="10000">
+            <ol class="carousel-indicators">
+                {% for image in images %}
+                    {% if image.image %}
+                        {% if forloop.counter0 == 0 %}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        {% else %}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}"></li>
                         {% endif %}
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for image in images %}
-                        {% if image.image %}
-                            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                                <img class="d-block" src="{{ image.image.url }}" alt="">
+                    {% endif %}
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% for image in images %}
+                    {% if image.image %}
+                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                            <div class="">
+                                <img class="rounded mx-auto d-block" src="{{ image.image.url }}" alt="">
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
-
 
         {% if profile.common_name %}
             <div>Common Name: {{profile.common_name}}</div>

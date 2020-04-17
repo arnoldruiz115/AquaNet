@@ -52,7 +52,7 @@ class SpeciesDetailView(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SpeciesDetailView, self).get_context_data(**kwargs)
         profile = self.get_object()
-        images = ProfileImage.objects.filter(profile=profile.pk)
+        images = ProfileImage.objects.filter(profile=profile.pk).order_by('order')
         context.update({'images': images})
         return context
 
