@@ -6,10 +6,10 @@
         {% csrf_token %}
         <div id="upload-form-id">
             <div class="form-group">
-                <input name="minsize" id="minSize" class="form-control mr-sm-2" type="text" placeholder="Min Size">
+                <input name="minsize" id="minSize" class="form-control mr-sm-2" type="number" step="0.1" placeholder="Min Size">
             </div>
             <div class="form-group">
-                <input name="maxsize" id="maxSize" class="form-control mr-sm-2" type="text" placeholder="Max Size">
+                <input name="maxsize" id="maxSize" class="form-control mr-sm-2" type="number" step="0.1" placeholder="Max Size">
             </div>
             <div class="form-group">
                 <label for="waterSelect">Water Type</label>
@@ -19,6 +19,12 @@
                     <option value="Salt">Saltwater</option>
                     <option value="Brackish">Brackish water</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <input name="minprice" id="minPrice" class="form-control mr-sm-2" type="number" step="0.01" placeholder="Min Price">
+            </div>
+            <div class="form-group">
+                <input name="maxprice" id="maxPrice" class="form-control mr-sm-2" type="number" step="0.01" placeholder="Max Price">
             </div>
             <div>
                 <button class="btn btn-outline-info my-2 my-sm-0" name="size-search" type="submit">Search</button>

@@ -63,6 +63,16 @@ def search_advanced(request):
         if not water_type == "Any":
             result_list = result_list.filter(water_type=water_type)
 
+        # If price is input
+        if request.POST.get('minprice') or request.POST.get('maxprice'):
+            result_list = result_list.filter(Q(for_sale=True))
+            if request.POST.get('minprice'):
+                min_price = request.POST.get('minprice')
+                result_list = result_list.filter(Q(price__gte=min_price))
+            if request.POST.get('maxprice'):
+                max_price = request.POST.get('maxprice')
+                result_list = result_list.filter(Q(price__lte=max_price))
+
         context = {
             'result_list': result_list,
             'search': search
