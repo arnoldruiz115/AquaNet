@@ -58,6 +58,11 @@
         <div>Species: {{profile.species}}</div>
         <div>Max Size: {{profile.max_size}}</div>
         <div>Water: {{profile.water_type}}</div>
+        {% if profile.for_sale == True %}
+            <div>For Sale: {{profile.for_sale}}</div>
+            <div>Price: {{profile.price}}</div>
+        {% endif %}
+        <div>Description: {{profile.description}}</div>
         <div>
             <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
         </div>

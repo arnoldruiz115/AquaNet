@@ -40,7 +40,7 @@ def user_profile(request, username):
                     photo.save()
             id = form.instance.pk
             return redirect('speciesprofile:detail', id)
-    else:
+    if request.method == 'GET':
         form = SpeciesProfileForm()
         formset = ProfileImageFormset()
     context = {'profile_user': user, 'form': form, 'formset': formset, 'posts': posts}

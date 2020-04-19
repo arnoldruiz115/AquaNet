@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.db.models import Q
 from .models import Profile, ProfileImage
-from .forms import ImagesFormset
+from .forms import ImagesFormset, SpeciesProfileForm
 
 
 # Create your views here.
@@ -85,8 +85,7 @@ class SpeciesDetailView(DetailView):
 class SpeciesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
     template_name = 'speciesprofile/update.html'
-
-    fields = ['common_name', 'species', 'max_size', 'water_type']
+    form_class = SpeciesProfileForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
