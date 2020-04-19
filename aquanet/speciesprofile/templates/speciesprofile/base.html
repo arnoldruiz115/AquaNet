@@ -40,7 +40,7 @@
                             </li>
                         {% endif %}
                     </ul>
-                    <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'speciesprofile:search-name' %}">
+                    <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'speciesprofile:name-search' %}">
                         {% csrf_token %}
                         <input class="form-control mr-sm-2" type="text" name="SearchSpecies" placeholder="Search">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">

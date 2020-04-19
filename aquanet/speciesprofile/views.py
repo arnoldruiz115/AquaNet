@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
 from .models import Profile, ProfileImage
-from .forms import SpeciesProfileForm, ImagesFormset
+from .forms import ImagesFormset
 
 
 # Create your views here.
@@ -42,7 +42,32 @@ def search_form_page(request):
 
 
 def search_advanced(request):
-    return render(request, 'speciesprofile/advancedsearch.html')
+    if request.method == 'GET':
+        return render(request, 'speciesprofile/advancedsearch.html')
+    if request.method == 'POST':
+        search = "Advanced Search"
+        result_list = Profile.objects.all()
+
+        # If min size is input
+        if request.POST.get('minsize'):
+            min_size = request.POST.get('minsize')
+            result_list = result_list.filter(Q(max_size__gte=min_size))
+
+        # If max size is input
+        if request.POST.get('maxsize'):
+            max_size = request.POST.get('maxsize')
+            result_list = result_list.filter(Q(max_size__lte=max_size))
+
+        # If water type is input
+        water_type = request.POST.get('waterSelect')
+        if not water_type == "Any":
+            result_list = result_list.filter(water_type=water_type)
+
+        context = {
+            'result_list': result_list,
+            'search': search
+        }
+        return render(request, 'speciesprofile/searchresults.html', context)
 
 
 class SpeciesDetailView(DetailView):

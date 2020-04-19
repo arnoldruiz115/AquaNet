@@ -2,10 +2,28 @@
 {% block content %}
 <div class="card bg-secondary-clear">
     <h2>Advanced Search</h2>
-    <form class="form-inline my-2 my-lg-0" method="POST" action="">
+    <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'speciesprofile:advanced-search' %}">
         {% csrf_token %}
-        <input class="form-control mr-sm-2" type="text" name="SearchSpecies" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" name="SearchButton" type="submit">Search</button>
+        <div id="upload-form-id">
+            <div class="form-group">
+                <input name="minsize" id="minSize" class="form-control mr-sm-2" type="text" placeholder="Min Size">
+            </div>
+            <div class="form-group">
+                <input name="maxsize" id="maxSize" class="form-control mr-sm-2" type="text" placeholder="Max Size">
+            </div>
+            <div class="form-group">
+                <label for="waterSelect">Water Type</label>
+                <select class="form-control" id="waterSelect" name="waterSelect">
+                    <option value="Any">Any</option>
+                    <option value="Fresh">Freshwater</option>
+                    <option value="Salt">Saltwater</option>
+                    <option value="Brackish">Brackish water</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-outline-info my-2 my-sm-0" name="size-search" type="submit">Search</button>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}
