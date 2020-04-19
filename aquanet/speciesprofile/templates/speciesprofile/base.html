@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>AquaNet</title>
         <!-- Custom Compiled Bootstrap css -->
-        <link rel="stylesheet" href="{% static 'speciesprofile/style.css'%}">
+        <link rel="stylesheet" href="{% static 'speciesprofile/style.css' %}">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -42,9 +42,9 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'speciesprofile:name-search' %}">
                         {% csrf_token %}
-                        <input class="form-control mr-sm-2" type="text" name="SearchSpecies" placeholder="Search">
+                        <input class="form-control mr-sm-2" type="text" name="SearchSpecies" id="SearchSpecies" placeholder="Search">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                            <button class="btn btn-secondary my-2 my-sm-0" id="searchButton" type="submit">Search</button>
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
@@ -79,6 +79,8 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
                 integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
                 crossorigin="anonymous"></script>
+
+        <script src="{% static 'speciesprofile/js/checkEmpty.js' %}"></script>
         {% block scripts %}
         {% endblock %}
     </body>

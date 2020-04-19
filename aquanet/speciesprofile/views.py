@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.db.models import Q
 from .models import Profile, ProfileImage
@@ -30,9 +31,8 @@ class SearchResultView(ListView):
         return Profile.objects.filter(Q(common_name__contains=search) | Q(species__contains=search))
 
 
+@require_http_methods(["POST"])
 def search_form_page(request):
-    if request.method == 'GET':
-        return render(request, 'speciesprofile/searchresults.html')
     if request.method == 'POST':
         search = request.POST['SearchSpecies']
         if not search:
