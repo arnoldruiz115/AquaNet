@@ -21,7 +21,7 @@
                 <ol id="sortable" class="carousel-indicators">
                     {% for image in profile_images %}
                         <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
-                            <img src="{{ image.image.url }}" test="{{ image.id }}" width="100">
+                            <img src="{{ image.image.url }}" width="100">
                         </li>
                     {% endfor %}
                 </ol>

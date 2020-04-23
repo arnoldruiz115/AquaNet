@@ -114,7 +114,6 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SpeciesImagesFormset, self).get_context_data(**kwargs)
-        profile = self.get_object()
         image_form = SpeciesImageForm()
         profile_images = self.get_image_list()
         context.update({'form': image_form, 'profile_images': profile_images})
@@ -126,8 +125,9 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         if image_form.is_valid():
             clean_data = image_form.cleaned_data
             image = clean_data['image']
-            photo = ProfileImage(profile=profile, image=image)
-            photo.save()
+            if image:
+                photo = ProfileImage(profile=profile, image=image)
+                photo.save()
         if request.POST.get("deleteBtn"):
             image_id = int(request.POST.get("deleteBtn"))
             if image_id in self.get_image_ids():
@@ -148,18 +148,20 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             counter = 0
             thumbnail_changed = False
             image_list = self.get_image_list()
-            print(order_list)
             for image in image_list:
-                if not image.order == order_list.index(image.order):
-                    if image.order == 0:
-                        thumbnail_changed = True
-                    image.order = order_list.index(image.order)
-                    image.save()
+                if image.image:
+                    if not image.order == order_list.index(image.order):
+                        if image.order == 0:
+                            thumbnail_changed = True
+                        image.order = order_list.index(image.order)
+                        image.save()
                 counter += 1
+
             if thumbnail_changed:
                 first_image = ProfileImage.objects.get(profile=profile.pk, order=0)
                 profile.thumbnail_url = first_image.image.url
                 profile.save()
+
         return redirect('speciesprofile:detail', profile.id)
 
     def test_func(self):
