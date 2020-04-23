@@ -21,7 +21,6 @@ def register(request):
 
 
 def user_profile(request, username):
-
     user = get_object_or_404(User, username=username)
     if Profile.objects.filter(author=user):
         posts = Profile.objects.filter(author=user).order_by('-publish_date')

@@ -3,50 +3,37 @@
 {% load widget_tweaks %}
 {% block content %}
 <div class="card bg-secondary-clear">
+    <legend class="border-bottom mb-4">
+        <div>Update Species</div>
+        <ul class="nav nav-tabs update-tab">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'speciesprofile:update' object.id %}">Description</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Images</a>
+            </li>
+        </ul>
+    </legend>
     <form method="post" id="imagesForm" action="#" enctype="multipart/form-data">
-        <legend class="border-bottom mb-4">
-            <div>Update Species</div>
-            <ul class="nav nav-tabs update-tab">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'speciesprofile:update' object.id %}">Description</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Images</a>
-                </li>
-            </ul>
-        </legend>
+        {% csrf_token %}
         <div id="images-formset">
-            {% csrf_token %}
-            {{ formset.management_form }}
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="0">
                 <ol id="sortable" class="carousel-indicators">
-                    {% for form in formset %}
-                        {% if form.instance.image %}
-                            {% if forloop.counter0 == 0 %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="active">
-                                <img src="{{ form.instance.image.url }}" width="100">
-                            </li>
-                            {% else %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}">
-                                <img src="{{ form.instance.image.url }}" width="100">
-                            </li>
-                            {% endif %}
-                        {% endif %}
+                    {% for image in profile_images %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
+                            <img src="{{ image.image.url }}" test="{{ image.id }}" width="100">
+                        </li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
-                    {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                    {% endfor %}
-                    {% if form.instance.image %}
-                    <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                        <div class="">
-                            <img class="rounded mx-auto d-block" src="{{ form.instance.image.url }}" alt="">
-                            <button type="submit" name="deleteBtn" value="{{form.instance.id}}">Delete {{form.instance.order}}</button>
+                    {% for image in profile_images %}
+                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                            <div class="">
+                                <img class="rounded mx-auto d-block" src="{{ image.image.url }}" alt="">
+                                <button type="submit" name="deleteBtn" value="{{image.id}}">Delete {{image.order}}</button>
+                            </div>
                         </div>
-                    </div>
-                    {% else %}
+                    {% endfor %}
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
@@ -56,18 +43,14 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <div>Add Image</div>
-                {{ form.image }}
+                <div>Add Image: {{ form.image }}</div>
                 <div>
-                    <button class="btn btn-outline-info" name="uploadImage" type="submit" value="upload">Add Image
-                    </button>
+                    <button class="btn btn-outline-info" name="uploadImage" type="submit" value="upload">Submit Image</button>
                 </div>
-                {% endif %}
-                {% endfor %}
             </div>
         </div>
         <div>
-            <input type="hidden" name="orderData" id="orderData" value="test" />
+            <input type="hidden" name="orderData" id="orderData" value="order" />
             <button class="btn btn-outline-info" name="saveImages" id="saveImages" type="submit" value="test">Save</button>
         </div>
     </form>
