@@ -10817,4 +10817,10 @@ a.text-dark:hover, a.text-dark:focus {
 .bg-secondary-clear {
   background: rgba(208, 240, 255, 0.75);
 }
+
+.carousel-indicators li {
+  text-indent: 0;
+  width: 100px;
+  height: 100px;
+}
 /*# sourceMappingURL=style.css.map */

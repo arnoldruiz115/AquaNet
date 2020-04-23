@@ -134,6 +134,29 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 print("That is not allowed.")
         if request.POST.get("uploadImage"):
             return redirect('speciesprofile:images-formset', profile.id)
+        if request.POST.get("saveImages"):
+            # Save changes in order and return
+            new_order_list = request.POST.get("saveImages")
+            new_order_list = new_order_list.split(',')
+            order_list = []
+            for element in new_order_list:
+                order_list.append(int(element))
+            counter = 0
+            thumbnail_changed = False
+            image_list = self.get_image_list()
+            print(order_list)
+            for image in image_list:
+                new_order = order_list[counter]
+                if not image.order == order_list.index(image.order):
+                    print("mismatch")
+                    if image.order == 0:
+                        thumbnail_changed = True
+                    image.order = order_list.index(image.order)
+                    image.save()
+                counter += 1
+            if thumbnail_changed:
+                first_image = ProfileImage.objects.get(profile=profile.pk, order=0)
+                profile.thumbnail_url = first_image.image.url
         return redirect('speciesprofile:detail', profile.id)
 
     def test_func(self):
@@ -141,6 +164,11 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         if self.request.user == post.author:
             return True
         return False
+
+    def get_image_list(self):
+        profile = self.get_object()
+        images = ProfileImage.objects.filter(profile=profile.pk).order_by('order')
+        return images
 
     def get_image_ids(self):
         profile = self.get_object()

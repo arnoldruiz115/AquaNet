@@ -1,5 +1,5 @@
 {% extends 'speciesprofile/base.html'%}
-
+{% load static%}
 {% block content %}
 <div class="container">
     <div class="species-div w-100">
@@ -20,13 +20,17 @@
         {% endif %}
 
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="10000">
-            <ol class="carousel-indicators">
+            <ol id="sortable" class="carousel-indicators">
                 {% for image in images %}
                     {% if image.image %}
                         {% if forloop.counter0 == 0 %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                <img src="{{ image.image.url }}" width="100">
+                            </li>
                         {% else %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}">
+                                <img src="{{ image.image.url }}" width="100">
+                            </li>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -66,7 +70,7 @@
         <div>
             <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
         </div>
-
     </div>
 </div>
 {% endblock %}
+

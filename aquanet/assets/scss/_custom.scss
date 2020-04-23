@@ -41,3 +41,11 @@
 .bg-secondary-clear{
     background: rgba(($secondary), 0.75);
 }
+
+.carousel-indicators{
+    li{
+        text-indent: 0;
+        width: 100px;
+        height: 100px;
+    }
+}
