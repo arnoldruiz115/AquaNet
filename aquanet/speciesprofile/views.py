@@ -128,6 +128,8 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             if image:
                 photo = ProfileImage(profile=profile, image=image)
                 photo.save()
+
+        '''
         if request.POST.get("deleteBtn"):
             image_id = int(request.POST.get("deleteBtn"))
             if image_id in self.get_image_ids():
@@ -136,6 +138,8 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 return redirect('speciesprofile:images-formset', profile.id)
             else:
                 print("That is not allowed.")
+        '''
+
         if request.POST.get("uploadImage"):
             return redirect('speciesprofile:images-formset', profile.id)
         if request.POST.get("saveImages"):

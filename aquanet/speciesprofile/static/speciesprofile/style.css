@@ -10823,4 +10823,12 @@ a.text-dark:hover, a.text-dark:focus {
   width: 100px;
   height: 100px;
 }
+
+.carousel-control-prev {
+  height: 80%;
+}
+
+.carousel-control-next {
+  height: 80%;
+}
 /*# sourceMappingURL=style.css.map */
