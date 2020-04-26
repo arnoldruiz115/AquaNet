@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.http import HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
@@ -129,17 +130,6 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 photo = ProfileImage(profile=profile, image=image)
                 photo.save()
 
-        '''
-        if request.POST.get("deleteBtn"):
-            image_id = int(request.POST.get("deleteBtn"))
-            if image_id in self.get_image_ids():
-                image = ProfileImage.objects.get(id=image_id)
-                image.delete()
-                return redirect('speciesprofile:images-formset', profile.id)
-            else:
-                print("That is not allowed.")
-        '''
-
         if request.POST.get("uploadImage"):
             return redirect('speciesprofile:images-formset', profile.id)
         if request.POST.get("saveImages"):
@@ -166,6 +156,20 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 profile.thumbnail_url = first_image.image.url
                 profile.save()
 
+            # Delete images marked for deletion
+            if request.POST.get("deleteList"):
+                delete_data = request.POST.get("deleteList")
+                delete_list = delete_data.split(',')
+                image_ids = []
+                for element in delete_list:
+                    image_ids.append(int(element))
+
+                for image_id in image_ids:
+                    if image_id in self.get_image_ids():
+                        image = ProfileImage.objects.get(id=image_id)
+                        image.delete()
+                    else:
+                        return HttpResponseForbidden()
         return redirect('speciesprofile:detail', profile.id)
 
     def test_func(self):

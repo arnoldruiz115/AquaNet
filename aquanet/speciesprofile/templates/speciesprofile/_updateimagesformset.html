@@ -17,10 +17,10 @@
     <form method="post" id="imagesForm" action="#" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="images-formset">
-            <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
+            <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="0">
                 <ol id="sortable" class="carousel-indicators">
                     {% for image in profile_images %}
-                        <li data-target="#carousel" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
+                        <li id="thumb{{image.id}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
                             <img img-id="{{image.id}}" src="{{ image.image.url }}" width="100">
                         </li>
                     {% endfor %}
@@ -52,7 +52,6 @@
             <button class="btn btn-outline-info" name="saveImages" id="saveImages" type="submit" value="">Save</button>
         </div>
     </form>
-    <button class="btn btn-success" type="button" id="testBtn" name="testBtn" value="">Test button</button>
 </div>
 {% endblock content %}
 {% block scripts %}
