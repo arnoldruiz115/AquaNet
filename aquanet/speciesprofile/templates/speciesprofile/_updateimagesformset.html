@@ -20,14 +20,14 @@
             <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="0">
                 <ol id="sortable" class="carousel-indicators">
                     {% for image in profile_images %}
-                        <li id="thumb{{image.id}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
+                        <li id="thumb{{forloop.counter0}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
                             <img img-id="{{image.id}}" src="{{ image.image.url }}" width="100">
                         </li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
                     {% for image in profile_images %}
-                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                        <div id="inner-img{{forloop.counter0}}" class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
                             <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}" alt="">
                             <button id="delete{{forloop.counter0}}" type="button" class="deleteBtn" name="deleteBtn" value="{{image.id}}">Delete</button>
                         </div>
