@@ -9,7 +9,6 @@ from .models import Profile, ProfileImage
 from .forms import SpeciesProfileForm, SpeciesImageForm
 
 
-
 # Create your views here.
 class IndexView(ListView):
     template_name = 'speciesprofile/index.html'
@@ -124,18 +123,10 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def post(self, request, *args, **kwargs):
         profile = self.get_object()
         image_form = SpeciesImageForm(request.POST, request.FILES, instance=profile)
-        if image_form.is_valid():
-            clean_data = image_form.cleaned_data
-            image = clean_data['image']
-            if image:
-                photo = ProfileImage(profile=profile, image=image)
-                photo.save()
 
-        if request.POST.get("uploadImage"):
-            return redirect('speciesprofile:images-formset', profile.id)
-        if request.POST.get("saveImages"):
+        if request.POST.get("saveImages") or request.POST.get("uploadImage"):
             # Save changes in order and return
-            new_order_list = request.POST.get("saveImages")
+            new_order_list = request.POST.get("orderList")
             new_order_list = new_order_list.split(',')
             order_list = []
             for element in new_order_list:
@@ -179,6 +170,17 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                         image.delete()
                     else:
                         return HttpResponseForbidden()
+
+            if image_form.is_valid():
+                clean_data = image_form.cleaned_data
+                image = clean_data['image']
+                if image:
+                    photo = ProfileImage(profile=profile, image=image)
+                    photo.save()
+
+            if request.POST.get("uploadImage"):
+                return redirect('speciesprofile:images-formset', profile.id)
+
         return redirect('speciesprofile:detail', profile.id)
 
     def test_func(self):

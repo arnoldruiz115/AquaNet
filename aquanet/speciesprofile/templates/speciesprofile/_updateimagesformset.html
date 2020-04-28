@@ -17,7 +17,7 @@
     <form method="post" id="imagesForm" action="#" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="images-formset">
-            <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="0">
+            <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
                 <ol id="sortable" class="carousel-indicators">
                     {% for image in profile_images %}
                         <li id="thumb{{forloop.counter0}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}" order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
@@ -43,13 +43,14 @@
                 </div>
                 <div>Add Image: {{ form.image }}</div>
                 <div>
-                    <button class="btn btn-outline-info" name="uploadImage" type="submit" value="upload">Submit Image</button>
+                    <button class="btn btn-outline-info" id="uploadImage" name="uploadImage" type="submit" value="upload">Submit Image</button>
                 </div>
             </div>
         </div>
         <div>
             <input type="hidden" name="deleteList" id="deleteList" value="" />
-            <button class="btn btn-outline-info" name="saveImages" id="saveImages" type="submit" value="">Save</button>
+            <input type="hidden" name="orderList" id="orderList" value="" />
+            <button class="btn btn-outline-info" name="saveImages" id="saveImages" type="submit" value="save">Save</button>
         </div>
     </form>
 </div>

@@ -18,14 +18,24 @@ $( function() {
             addedValue = deleteList + "," + $(this).val();
             $("#deleteList").val(addedValue);
         }
+        // Make next image active image
+        currentActive = $carousel.find('.carousel-item.active');
+        currentThumbnail = $carousel.find('.ui-sortable-handle.active')
+        // make the next image the active, if last image is deleted make the previous the active
+        if (typeof currentThumbnail.next().attr('id') !== "undefined"){
+            currentThumbnail.next().addClass('active');
+            currentActive.next().addClass('active');
+        }
+        else{
+            currentThumbnail.prev().addClass('active');
+            currentActive.prev().addClass('active');
+        }
 
         // remove the image from the carousel and hide the thumbnail indicator
         $("#thumb" + $(this).attr('delete-img')).remove();
         $(this).parent().remove();
 
-        // Make new active image after deleting
-        $carousel.find('.carousel-item').first().addClass('active');
-        $carousel.find('.ui-sortable-handle').first().addClass('active');
+        // update the data slide to attribute for each thumbnail after deleting an image from the list
         var i = 0;
         $('#sortable > li').each(function(){
             $(this).attr('data-slide-to', i)
@@ -60,8 +70,13 @@ $( function() {
 
     });
 
+    $("#uploadImage").click(function(){
+        var new_order = $( "#sortable" ).sortable('toArray', {attribute: "order-id"});
+        $("#orderList").val(new_order);
+    });
+
     $("#saveImages").click(function(){
         var new_order = $( "#sortable" ).sortable('toArray', {attribute: "order-id"});
-        $("#saveImages").val(new_order);
+        $("#orderList").val(new_order);
     });
  });
