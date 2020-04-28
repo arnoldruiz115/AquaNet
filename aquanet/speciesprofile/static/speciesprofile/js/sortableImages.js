@@ -20,18 +20,18 @@ $( function() {
         }
 
         // remove the image from the carousel and hide the thumbnail indicator
-        $("#thumb" + $(this).val()).hide();
-        var activeSlide = $carousel.find('.carousel-item.active');
-        activeSlide.remove();
-        var nextSlide = $carousel.find('.carousel-item').first();
-        nextSlide.addClass('active');
+        $("#thumb" + $(this).attr('delete-img')).remove();
+        $(this).parent().remove();
+
+        // Make new active image after deleting
+        $carousel.find('.carousel-item').first().addClass('active');
+        $carousel.find('.ui-sortable-handle').first().addClass('active');
         var i = 0;
         $('#sortable > li').each(function(){
             $(this).attr('data-slide-to', i)
             i++;
             slideNum = $(this).attr('data-slide-to');
         });
-
     });
 
     $( "#sortable" ).on( "sortupdate", function( event, ui ) {
@@ -44,6 +44,7 @@ $( function() {
             image_url = $(this).children().attr('src');
             $("#image"+slideNum).attr("src", image_url);
             $("#delete"+slideNum).val(imageId);
+            $("#delete"+slideNum).attr('delete-img', $(this).attr('order-id'));
         });
 
         //After the sort update make the recently clicked the active image

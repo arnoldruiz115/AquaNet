@@ -29,7 +29,7 @@
                     {% for image in profile_images %}
                         <div id="inner-img{{forloop.counter0}}" class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
                             <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}" alt="">
-                            <button id="delete{{forloop.counter0}}" type="button" class="deleteBtn" name="deleteBtn" value="{{image.id}}">Delete</button>
+                            <button id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button" class="deleteBtn" name="deleteBtn" value="{{image.id}}">Delete</button>
                         </div>
                     {% endfor %}
                     <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">

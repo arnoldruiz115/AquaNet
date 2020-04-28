@@ -9,6 +9,7 @@ from .models import Profile, ProfileImage
 from .forms import SpeciesProfileForm, SpeciesImageForm
 
 
+
 # Create your views here.
 class IndexView(ListView):
     template_name = 'speciesprofile/index.html'
@@ -142,6 +143,13 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             counter = 0
             thumbnail_changed = False
             image_list = self.get_image_list()
+
+            # Add "deleted" images to new image order list to the back
+            for img in image_list:
+                if img.order not in order_list:
+                    order_list.append(img.order)
+
+            # If image.order not equal to new order list, change the order to match the new order list
             for image in image_list:
                 if image.image:
                     if not image.order == order_list.index(image.order):
@@ -151,6 +159,7 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                         image.save()
                 counter += 1
 
+            # If first image.order was changed make the new image with order = 0 the new profile preview/thumbnail
             if thumbnail_changed:
                 first_image = ProfileImage.objects.get(profile=profile.pk, order=0)
                 profile.thumbnail_url = first_image.image.url
