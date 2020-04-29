@@ -16,7 +16,7 @@ class Profile(models.Model):
     description = models.TextField(blank=True)
     publish_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    thumbnail_url = models.TextField(default='/media/species-images/default.jpg', blank=True)
+    thumbnail = models.ImageField(upload_to='species-images', blank=True)
 
     def save(self, *args, **kwargs):
         # Modify model elements
@@ -47,7 +47,7 @@ class ProfileImage(models.Model):
 
         # If profile has no images, first image will be the thumbnail. Do after image has been saved to get url
         if images_count == 0:
-            self.profile.thumbnail_url = self.image.url
+            self.profile.thumbnail = self.image
             self.profile.save()
 
     def delete(self, using=None, keep_parents=False):
@@ -57,10 +57,10 @@ class ProfileImage(models.Model):
         if position == 0:
             if ProfileImage.objects.filter(profile=self.profile.pk, order=1):
                 next_image = ProfileImage.objects.get(profile=self.profile.pk, order=1)
-                self.profile.thumbnail_url = next_image.image.url
+                self.profile.thumbnail = next_image.image
                 self.profile.save()
             else:
-                self.profile.thumbnail_url = '/media/species-images/default.jpg'
+                self.profile.thumbnail.delete()
                 self.profile.save()
         # change order of remaining images
         while position < self.get_image_count():

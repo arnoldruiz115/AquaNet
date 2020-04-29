@@ -7,13 +7,19 @@
             <div class="d-flex justify-content-around">
                 {% for species in species_list %}
                     <div class="species-prev">
-                        {% if species.thumbnail_url %}
                         <a href="{% url 'speciesprofile:detail' species.id %}">
                             <div class="img-container">
-                                <img src="{{ species.thumbnail_url }}" alt="" width="200" height="150">
+                                {% if species.thumbnail %}
+                                    {% if species.thumbnail.height < species.thumbnail.width %}
+                                        <img src="{{ species.thumbnail.url }}" width="200">
+                                    {% else %}
+                                        <img src="{{ species.thumbnail.url }}" height="150">
+                                    {% endif %}
+                                {% else %}
+                                    <img src="/media/species-images/default.jpg" alt="" width="200">
+                                {% endif %}
                             </div>
                         </a>
-                        {% endif %}
                         {% if species.common_name %}
                         <div>{{species.common_name}}</div>
                         {% else %}
