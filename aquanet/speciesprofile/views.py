@@ -129,8 +129,9 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             new_order_list = request.POST.get("orderList")
             new_order_list = new_order_list.split(',')
             order_list = []
-            for element in new_order_list:
-                order_list.append(int(element))
+            if not new_order_list == ['']:
+                for element in new_order_list:
+                    order_list.append(int(element))
             counter = 0
             thumbnail_changed = False
             image_list = self.get_image_list()

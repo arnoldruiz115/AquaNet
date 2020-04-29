@@ -9,25 +9,36 @@
 }
 
 .species-prev{
-    background: $primary;
-    color: $secondary;
+    background-color: rgba(110, 185, 245, 0.5);
+    color: black;
     a{
-        color: $secondary;
+        color: black;
     }
     height: fit-content;
     width: 200px;
-    border: solid black;
     margin-top: 10px;
     text-align: center;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(($secondary), 0.75);
+    box-shadow: 0 0 10px rgb(0, 0, 0);
     transition-duration: .3s;
     &:hover{
-        background: white;
+        background: rgba(white, 0.5);
         color: black;
         a{
             color:black
         }
+    }
+}
+
+.img-container{
+    position: relative;
+    width: 200px;
+    height: 150px;
+    background: black;
+    img{
+        position: relative;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
     }
 }
 

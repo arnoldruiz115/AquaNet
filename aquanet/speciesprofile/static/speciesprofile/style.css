@@ -10779,33 +10779,45 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .species-prev {
-  background: #025cb1;
-  color: #d0f0ff;
+  background-color: rgba(110, 185, 245, 0.5);
+  color: black;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   width: 200px;
-  border: solid black;
   margin-top: 10px;
   text-align: center;
-  padding: 10px;
-  -webkit-box-shadow: 0 0 10px rgba(208, 240, 255, 0.75);
-          box-shadow: 0 0 10px rgba(208, 240, 255, 0.75);
+  -webkit-box-shadow: 0 0 10px black;
+          box-shadow: 0 0 10px black;
   -webkit-transition-duration: .3s;
           transition-duration: .3s;
 }
 
 .species-prev a {
-  color: #d0f0ff;
+  color: black;
 }
 
 .species-prev:hover {
-  background: white;
+  background: rgba(255, 255, 255, 0.5);
   color: black;
 }
 
 .species-prev:hover a {
   color: black;
+}
+
+.img-container {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  background: black;
+}
+
+.img-container img {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .index-bg {

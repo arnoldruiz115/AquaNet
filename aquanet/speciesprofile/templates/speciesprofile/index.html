@@ -1,7 +1,6 @@
 {% extends 'speciesprofile/base.html'%}
 {% block content %}
 <div class="card bg-secondary-clear">
-    <h1>Home page of AquaNet.</h1>
     <div>
         <div>Recent Uploads</div>
         {% if species_list %}
@@ -9,12 +8,16 @@
                 {% for species in species_list %}
                     <div class="species-prev">
                         {% if species.thumbnail_url %}
-                        <img src="{{ species.thumbnail_url }}" alt="" height="100" width="100">
+                        <a href="{% url 'speciesprofile:detail' species.id %}">
+                            <div class="img-container">
+                                <img src="{{ species.thumbnail_url }}" alt="" width="200" height="150">
+                            </div>
+                        </a>
                         {% endif %}
                         {% if species.common_name %}
-                        <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.common_name}}</a></div>
+                        <div>{{species.common_name}}</div>
                         {% else %}
-                        <div><a href="{% url 'speciesprofile:detail' species.id %}">{{species.species}}</a></div>
+                        <div>{{species.species}}</div>
                         {% endif %}
                         <small><a href="{% url 'users:profile' species.author %}">{{species.author}}</a></small>
                     </div>

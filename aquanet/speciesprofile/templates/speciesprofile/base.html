@@ -48,7 +48,7 @@
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <a class="dropdown-item" href="{% url 'speciesprofile:advanced-search' %}">Advanced Search</a>
                                 </div>
                             </div>
@@ -63,9 +63,6 @@
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}">{{message}}</div>
                     {% endfor %}
-                {% endif %}
-                {% if user.is_authenticated %}
-                <div>You are logged in as {{user.username}}</div>
                 {% endif %}
                 {% block content %}
                 {% endblock %}
