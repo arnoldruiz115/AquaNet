@@ -16,7 +16,8 @@ class Profile(models.Model):
     description = models.TextField(blank=True)
     publish_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    thumbnail = models.ImageField(upload_to='species-images', blank=True)
+    thumbnail = models.ImageField(upload_to='species-images', blank=True, default=None)
+    thumbnail_aspect_ratio = models.FloatField(null=True, blank=True, default=None)
 
     def save(self, *args, **kwargs):
         # Modify model elements
@@ -36,11 +37,12 @@ class ProfileImage(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='species-images', blank=True)
     order = models.IntegerField(default=-1)
+    aspect_ratio = models.FloatField(null=True, blank=True, default=None)
 
     def save(self, *args, **kwargs):
         # Modify model elements
         images_count = self.get_image_count()
-
+        self.aspect_ratio = self.image.width / self.image.height
         if self.order == -1:
             self.order = images_count
         super(ProfileImage, self).save(*args, **kwargs)
@@ -48,6 +50,7 @@ class ProfileImage(models.Model):
         # If profile has no images, first image will be the thumbnail. Do after image has been saved to get url
         if images_count == 0:
             self.profile.thumbnail = self.image
+            self.profile.thumbnail_aspect_ratio = self.aspect_ratio
             self.profile.save()
 
     def delete(self, using=None, keep_parents=False):
@@ -58,9 +61,11 @@ class ProfileImage(models.Model):
             if ProfileImage.objects.filter(profile=self.profile.pk, order=1):
                 next_image = ProfileImage.objects.get(profile=self.profile.pk, order=1)
                 self.profile.thumbnail = next_image.image
+                self.profile.thumbnail_aspect_ratio = next_image.aspect_ratio
                 self.profile.save()
             else:
                 self.profile.thumbnail.delete()
+                self.profile.thumbnail_aspect_ratio.delete()
                 self.profile.save()
         # change order of remaining images
         while position < self.get_image_count():

@@ -1,48 +1,50 @@
 {% extends 'speciesprofile/base.html'%}
 {% load static%}
 {% block content %}
-<div class="container">
-    <div class="species-div w-100">
-        {% if profile.author == user %}
-            <div>
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <button type="button" class="btn btn-secondary">Options</button>
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
-                            <a class="dropdown-item" href="{% url 'speciesprofile:update' profile.id %}">Edit Post</a>
-                            <a class="dropdown-item" href="{% url 'speciesprofile:delete' profile.id %}">Delete Post</a>
-                        </div>
+<div class="species-div bg-secondary-clear w-100">
+    {% if profile.author == user %}
+        <div>
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" class="btn btn-secondary">Options</button>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                        <a class="dropdown-item" href="{% url 'speciesprofile:update' profile.id %}">Edit Post</a>
+                        <a class="dropdown-item" href="{% url 'speciesprofile:delete' profile.id %}">Delete Post</a>
                     </div>
                 </div>
             </div>
-        {% endif %}
+        </div>
+    {% endif %}
 
+    <div class="carousel-container">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="10000">
             <ol id="sortable" class="carousel-indicators">
                 {% for image in images %}
-                    {% if image.image %}
-                        {% if forloop.counter0 == 0 %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
-                                <img src="{{ image.image.url }}" width="100">
-                            </li>
-                        {% else %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}">
-                                <img src="{{ image.image.url }}" width="100">
-                            </li>
-                        {% endif %}
-                    {% endif %}
+                {% if image.image %}
+                {% if forloop.counter0 == 0 %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                    <img src="{{ image.image.url }}" width="100">
+                </li>
+                {% else %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}">
+                    <img src="{{ image.image.url }}" width="100">
+                </li>
+                {% endif %}
+                {% endif %}
                 {% endfor %}
             </ol>
             <div class="carousel-inner">
                 {% for image in images %}
                     {% if image.image %}
-                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                            <div class="">
-                                <img class="rounded mx-auto d-block" src="{{ image.image.url }}" alt="">
-                            </div>
-                        </div>
+                    <div class="carousel-item inner-bg {% if forloop.counter0 == 0 %}active{% endif %}">
+                        {% if image.aspect_ratio > 1.778 %}
+                            <img class="rounded mx-auto d-block" src="{{ image.image.url }}" width="640">
+                        {% else %}
+                            <img class="rounded mx-auto d-block" src="{{ image.image.url }}" height="360">
+                        {% endif %}
+                    </div>
                     {% endif %}
                 {% endfor %}
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -55,21 +57,22 @@
                 </a>
             </div>
         </div>
+    </div>
 
-        {% if profile.common_name %}
-            <div>Common Name: {{profile.common_name}}</div>
-        {% endif %}
-        <div>Species: {{profile.species}}</div>
-        <div>Max Size: {{profile.max_size}}</div>
-        <div>Water: {{profile.water_type}}</div>
-        {% if profile.for_sale == True %}
-            <div>For Sale: {{profile.for_sale}}</div>
-            <div>Price: {{profile.price}}</div>
-        {% endif %}
-        <div>Description: {{profile.description}}</div>
-        <div>
-            <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
-        </div>
+
+    {% if profile.common_name %}
+        <div>Common Name: {{profile.common_name}}</div>
+    {% endif %}
+    <div>Species: {{profile.species}}</div>
+    <div>Max Size: {{profile.max_size}}</div>
+    <div>Water: {{profile.water_type}}</div>
+    {% if profile.for_sale == True %}
+        <div>For Sale: {{profile.for_sale}}</div>
+        <div>Price: {{profile.price}}</div>
+    {% endif %}
+    <div>Description: {{profile.description}}</div>
+    <div>
+        <small class="text-muted"><a href="{% url 'users:profile' profile.author %}">{{profile.author}}</a></small>
     </div>
 </div>
 {% endblock %}

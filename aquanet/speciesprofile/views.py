@@ -154,7 +154,8 @@ class SpeciesImagesFormset(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             # If first image.order was changed make the new image with order = 0 the new profile preview/thumbnail
             if thumbnail_changed:
                 first_image = ProfileImage.objects.get(profile=profile.pk, order=0)
-                profile.thumbnail_url = first_image.image.url
+                profile.thumbnail = first_image.image
+                profile.thumbnail_aspect_ratio = first_image.aspect_ratio
                 profile.save()
 
             # Delete images marked for deletion

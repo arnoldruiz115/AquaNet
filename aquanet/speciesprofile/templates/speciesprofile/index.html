@@ -10,10 +10,10 @@
                         <a href="{% url 'speciesprofile:detail' species.id %}">
                             <div class="img-container">
                                 {% if species.thumbnail %}
-                                    {% if species.thumbnail.height < species.thumbnail.width %}
+                                    {% if species.thumbnail_aspect_ratio > 1.778 %}
                                         <img src="{{ species.thumbnail.url }}" width="200">
                                     {% else %}
-                                        <img src="{{ species.thumbnail.url }}" height="150">
+                                        <img src="{{ species.thumbnail.url }}" height="113">
                                     {% endif %}
                                 {% else %}
                                     <img src="/media/species-images/default.jpg" alt="" width="200">

@@ -1,8 +1,6 @@
 .species-div{
-    background: #9fb1eb;
     height: fit-content;
     width: fit-content;
-    border: solid black;
     padding-top: 10px;
     text-align: center;
     padding: 10px;
@@ -32,7 +30,7 @@
 .img-container{
     position: relative;
     width: 200px;
-    height: 150px;
+    height: 113px;
     background: black;
     img{
         position: relative;
@@ -61,10 +59,27 @@
     }
 }
 
+.carousel-container{
+    width: 640px;
+    height: 360px;
+}
+
 .carousel-control-prev{
     height: 80%;
 }
 
 .carousel-control-next{
     height: 80%;
+}
+
+.inner-bg{
+    position: relative;
+    width: 640px;
+    height: 360px;
+    img{
+        position: relative;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
 }
