@@ -10828,10 +10828,26 @@ a.text-dark:hover, a.text-dark:focus {
   background: rgba(208, 240, 255, 0.75);
 }
 
+.carousel-indicators {
+  bottom: -130px;
+}
+
 .carousel-indicators li {
+  background-color: black;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 5px;
+  position: relative;
   text-indent: 0;
   width: 100px;
   height: 100px;
+}
+
+.carousel-indicators li img {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .carousel-container {

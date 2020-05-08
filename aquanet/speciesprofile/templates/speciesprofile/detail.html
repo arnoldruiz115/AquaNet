@@ -22,17 +22,15 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="10000">
             <ol id="sortable" class="carousel-indicators">
                 {% for image in images %}
-                {% if image.image %}
-                {% if forloop.counter0 == 0 %}
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
-                    <img src="{{ image.image.url }}" width="100">
-                </li>
-                {% else %}
-                <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}">
-                    <img src="{{ image.image.url }}" width="100">
-                </li>
-                {% endif %}
-                {% endif %}
+                    {% if image.image %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
+                            {% if image.aspect_ratio > 1.778 %}
+                                <img class="rounded mx-auto d-block" src="{{ image.image.url }}" width="100">
+                            {% else %}
+                                <img class="rounded mx-auto d-block" src="{{ image.image.url }}" height="100">
+                            {% endif %}
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ol>
             <div class="carousel-inner">
