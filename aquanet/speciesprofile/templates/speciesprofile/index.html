@@ -1,36 +1,92 @@
 {% extends 'speciesprofile/base.html'%}
 {% block content %}
-<div class="card bg-secondary-clear">
-    <div>
-        <div>Recent Uploads</div>
-        {% if species_list %}
-            <div class="d-flex justify-content-around">
-                {% for species in species_list %}
-                    <div class="species-prev">
-                        <a href="{% url 'speciesprofile:detail' species.id %}">
-                            <div class="img-container">
-                                {% if species.thumbnail %}
-                                    {% if species.thumbnail_aspect_ratio > 1.778 %}
-                                        <img src="{{ species.thumbnail.url }}" width="200">
-                                    {% else %}
-                                        <img src="{{ species.thumbnail.url }}" height="113">
-                                    {% endif %}
-                                {% else %}
-                                    <img src="/media/species-images/default.jpg" alt="" width="200">
-                                {% endif %}
-                            </div>
-                        </a>
-                        {% if species.common_name %}
-                        <div>{{species.common_name}}</div>
-                        {% else %}
-                        <div>{{species.species}}</div>
-                        {% endif %}
-                        <small><a href="{% url 'users:profile' species.author %}">{{species.author}}</a></small>
-                    </div>
-                {% endfor %}
+<div class="card">
+    <div class="d-flex justify-content-start">
+        <div class="d-flex flex-column">
+            <div class="card blue-card">
+                <div class="list-header">
+                    <div class="ml-50px mt-10px">Freshwater</div>
+                </div>
+                <div>
+                    <ul class="list-group ml-50px">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Bettas</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Catfish</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Cichlids</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Goldfish</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Guppies</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Flowerhorns</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="">Others</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        {% endif %}
-        <div>Featured Uploads</div>
+            <div class="card salt-card">
+                <div class="list-header">
+                    <div class="ml-50px mt-10px">Saltwater</div>
+                </div>
+                <div>
+                    <ul class="list-group ml-50px">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <a href="">Clownfish</a>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <a href="">Groupers</a>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="">Coral</a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mt-50px w-100">
+           {% if species_list %}
+                <div class="posts-list d-flex justify-content-around">
+                    {% for species in species_list %}
+                        <div class="species-prev">
+                            <a href="{% url 'speciesprofile:detail' species.id %}">
+                                <div class="img-container">
+                                    {% if species.thumbnail %}
+                                        {% if species.thumbnail_aspect_ratio < 0.75 %}
+                                            <img src="{{ species.thumbnail.url }}" height="190">
+                                        {% elif species.thumbnail_aspect_ratio > 2.3 %}
+                                            <img src="{{ species.thumbnail.url }}" width="282">
+                                        {% else %}
+                                            <img src="{{ species.thumbnail.url }}" height="190" width="282">
+                                        {% endif %}
+
+                                    {% else %}
+                                        <img src="/media/species-images/default.jpg" width="282" height="190">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% if species.common_name %}
+                            <div>{{species.common_name}}</div>
+                            {% else %}
+                            <div>{{species.species}}</div>
+                            {% endif %}
+                            {% if species.price %}
+                            <div>${{species.price|floatformat:2}}</div>
+                            {% endif %}
+                            <small><a href="{% url 'users:profile' species.author %}">{{species.author}}</a></small>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

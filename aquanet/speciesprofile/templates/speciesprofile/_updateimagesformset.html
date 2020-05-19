@@ -2,75 +2,78 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-<div class="card bg-secondary-clear">
-    <legend class="border-bottom mb-4">
-        <div>Update Species</div>
-        <ul class="nav nav-tabs update-tab">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'speciesprofile:update' object.id %}">Description</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Images</a>
-            </li>
-        </ul>
-    </legend>
-    <form method="post" id="imagesForm" action="#" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div id="images-formset" class="carousel-container">
-            <div class="d-flex flex-row">
-                <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
-                    <ol id="sortable" class="carousel-indicators">
-                        {% for image in profile_images %}
-                        <li id="thumb{{forloop.counter0}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}"
-                            order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
-                            {% if image.aspect_ratio > 1.778 %}
-                            <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}"
-                                 width="100">
-                            {% else %}
-                            <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}"
-                                 height="100">
-                            {% endif %}
-                        </li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner">
-                        {% for image in profile_images %}
-                        <div id="inner-img{{forloop.counter0}}"
-                             class="carousel-item inner-bg {% if forloop.counter0 == 0 %}active{% endif %}">
-                            <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}"
-                                 alt="" {% if image.aspect_ratio > 1.778 %}width="640"{% else %}height="360"{% endif %}>
-                            <button id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button"
-                                    class="deleteBtn" name="deleteBtn" value="{{image.id}}">Delete
+<div class="card">
+    <div class="update-form">
+        <form class="mb-150px" method="post" id="imagesForm" action="#" enctype="multipart/form-data">
+            <legend class="border-bottom mb-4">
+                <div>Update Species</div>
+                <ul class="nav nav-tabs update-tab">
+                    <li class="nav-item">
+                        <a class="nav-link update-tab" href="{% url 'speciesprofile:update' object.id %}">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link update-tab active" href="#">Images</a>
+                    </li>
+                </ul>
+            </legend>
+            {% csrf_token %}
+            <div id="images-formset" class="carousel-container">
+                <div class="d-flex flex-row">
+                    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                        <ol id="sortable" class="carousel-indicators">
+                            {% for image in profile_images %}
+                            <li id="thumb{{forloop.counter0}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}"
+                                order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
+                                {% if image.aspect_ratio < 0.75 %}
+                                <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}" height="100">
+                                {% elif image.aspect_ratio > 2.3 %}
+                                <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}" width="100">
+                                {% else %}
+                                <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}" width="100" height="100">
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for image in profile_images %}
+                            <div id="inner-img{{forloop.counter0}}"
+                                 class="carousel-item inner-bg {% if forloop.counter0 == 0 %}active{% endif %}">
+                                <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}"
+                                     alt="" {% if image.aspect_ratio > 1.778 %}width="800"{% else %}height="580"{% endif %}>
+                                <button id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button"
+                                        class="deleteBtn" name="deleteBtn" value="{{image.id}}">Delete
+                                </button>
+                            </div>
+                            {% endfor %}
+                            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <div>Add Image: {{ form.image }}</div>
+                        <div>
+                            <button class="btn btn-outline-info" id="uploadImage" name="uploadImage" type="submit" value="upload">
+                                Submit Image
                             </button>
                         </div>
-                        {% endfor %}
-                        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <div>Add Image: {{ form.image }}</div>
-                    <div>
-                        <button class="btn btn-outline-info" id="uploadImage" name="uploadImage" type="submit" value="upload">
-                            Submit Image
-                        </button>
-                    </div>
-                    <div>
-                        <input type="hidden" name="deleteList" id="deleteList" value=""/>
-                        <input type="hidden" name="orderList" id="orderList" value=""/>
-                        <button class="btn btn-outline-info" name="saveImages" id="saveImages" type="submit" value="save">Save
-                        </button>
+                        <div>
+                            <input type="hidden" name="deleteList" id="deleteList" value=""/>
+                            <input type="hidden" name="orderList" id="orderList" value=""/>
+                            <button class="btn btn-outline-info" name="saveImages" id="saveImages" type="submit" value="save">Save
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+
 </div>
 {% endblock content %}
 {% block scripts %}

@@ -44,6 +44,7 @@ $( function() {
         });
     });
 
+    // Make changes when changing images order
     $( "#sortable" ).on( "sortupdate", function( event, ui ) {
         var i = 0;
         $('#sortable > li').each(function(){

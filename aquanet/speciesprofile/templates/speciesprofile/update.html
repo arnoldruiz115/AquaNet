@@ -1,16 +1,17 @@
 {% extends "speciesprofile/base.html" %}
 {% load widget_tweaks %}
 {% block content %}
-<div class="card bg-secondary-clear">
-    <form method="post" action="#" enctype="multipart/form-data">
+<div class="card">
+    <div class="update-form">
+        <form method="post" action="#" enctype="multipart/form-data">
             <legend class="border-bottom mb-4">
                 <div>Update Species</div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Description</a>
+                        <a class="nav-link update-tab active" href="#">Description</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'speciesprofile:images-formset' object.id %}">Images</a>
+                        <a class="nav-link update-tab" href="{% url 'speciesprofile:images-formset' object.id %}">Images</a>
                     </li>
                 </ul>
             </legend>
@@ -19,36 +20,37 @@
                 {{ form.non_field_errors }}
                 <div class="form-group">
                     {{ form.common_name.errors }}
-                    {% render_field form.common_name class="form-control w-75 mx-2" placeholder="Common Name (If any)"%}
+                    {% render_field form.common_name class="form-control w-50 mx-2" placeholder="Common Name (If any)"%}
                 </div>
                 <div class="form-group">
                     {{ form.species.errors }}
-                    {% render_field form.species class="form-control w-75 mx-2" placeholder="Species"%}
+                    {% render_field form.species class="form-control w-50 mx-2" placeholder="Species"%}
                 </div>
                 <div class="form-group">
                     {{ form.max_size.errors }}
-                    {% render_field form.max_size class="form-control w-75 mx-2" placeholder="Max Size" type="number" step="0.1"%}
+                    {% render_field form.max_size class="form-control w-50 mx-2" placeholder="Max Size" type="number" step="0.1"%}
                 </div>
                 <div class="form-group">
                     {{ form.water_type.errors }}
-                    {% render_field form.water_type class="form-control w-75 mx-2" placeholder="Water Type"%}
+                    {% render_field form.water_type class="form-control w-50 mx-2" placeholder="Water Type"%}
                 </div>
                 <div class="form-group">
                     {{ form.for_sale.errors }}
-                    {% render_field form.for_sale class="form-control w-75 mx-2" placeholder="Water Type"%}
+                    {% render_field form.for_sale class="form-control w-50 mx-2" placeholder="Water Type"%}
                 </div>
                 <div class="form-group">
                     {{ form.price.errors }}
-                    {% render_field form.price class="form-control w-75 mx-2" placeholder="Price $USD" type="number" step="0.01" %}
+                    {% render_field form.price class="form-control w-50 mx-2" placeholder="Price $USD" type="number" step="0.01" %}
                 </div>
                 <div class="form-group">
                     {{ form.description.errors }}
-                    {% render_field form.description class="form-control w-75 mx-2" placeholder="Additional Descriptions"%}
+                    {% render_field form.description class="form-control w-50 mx-2" placeholder="Additional Descriptions"%}
                 </div>
                 <div>
-                    <button class="btn btn-outline-info" type="submit">Submit</button>
+                    <button class="btn btn-outline-info mx-2 mb-2" type="submit">Submit</button>
                 </div>
             </div>
         </form>
+    </div>
 </div>
 {% endblock content %}

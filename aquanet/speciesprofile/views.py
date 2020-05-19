@@ -15,7 +15,7 @@ class IndexView(ListView):
     context_object_name = 'species_list'
 
     def get_queryset(self):
-        return Profile.objects.order_by('-publish_date')[:4]
+        return Profile.objects.order_by('-publish_date')[:12]
 
 
 class SearchResultView(ListView):
