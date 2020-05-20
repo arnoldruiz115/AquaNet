@@ -49,13 +49,33 @@ $( function() {
         var i = 0;
         $('#sortable > li').each(function(){
             $(this).attr('data-slide-to', i)
-            i++;
             slideNum = $(this).attr('data-slide-to');
+            originalOrder = $(this).attr('order-id');
             imageId = $(this).children().attr('img-id');
             image_url = $(this).children().attr('src');
+
             $("#image"+slideNum).attr("src", image_url);
             $("#delete"+slideNum).val(imageId);
             $("#delete"+slideNum).attr('delete-img', $(this).attr('order-id'));
+
+            // check image orientation/object fit
+            // original position of image is current image, new position is target image
+            // check the original image type (horizontal, vertical or cover) and make the new postion match
+            currentImage = $('#image'+originalOrder);
+            targetImage = $('#image'+slideNum);
+            if (currentImage.attr("data-img-type") == 'h'){
+                targetImage.removeAttr("height")
+                targetImage.attr("width", "800");
+            }
+            else if (currentImage.attr("data-img-type") == 'v'){
+                targetImage.attr("height", "580");
+                targetImage.removeAttr("width")
+            }
+            else{
+                targetImage.attr("height", "580");
+                targetImage.attr("width", "800");
+            }
+            i++;
         });
 
         //After the sort update make the recently clicked the active image

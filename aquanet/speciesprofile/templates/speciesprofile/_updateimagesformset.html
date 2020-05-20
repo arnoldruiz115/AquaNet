@@ -19,7 +19,7 @@
             {% csrf_token %}
             <div id="images-formset" class="carousel-container">
                 <div class="d-flex flex-row">
-                    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                    <div id="carousel" class="carousel" data-ride="carousel" data-interval="0">
                         <ol id="sortable" class="carousel-indicators">
                             {% for image in profile_images %}
                             <li id="thumb{{forloop.counter0}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}"
@@ -37,12 +37,17 @@
                         <div class="carousel-inner">
                             {% for image in profile_images %}
                             <div id="inner-img{{forloop.counter0}}"
-                                 class="carousel-item inner-bg {% if forloop.counter0 == 0 %}active{% endif %}">
-                                <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}"
-                                     alt="" {% if image.aspect_ratio > 1.778 %}width="800"{% else %}height="580"{% endif %}>
-                                <button id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button"
-                                        class="deleteBtn" name="deleteBtn" value="{{image.id}}">Delete
-                                </button>
+                                class="carousel-item inner-bg {% if forloop.counter0 == 0 %}active{% endif %}">
+                                {% if image.aspect_ratio > 1.54 %}
+                                    <img id="image{{forloop.counter0}}" data-img-type="h" class="rounded mx-auto d-block" src="{{ image.image.url }}" width="800">
+                                {% elif image.aspect_ratio < 1.2 %}
+                                    <img id="image{{forloop.counter0}}" data-img-type="v" class="rounded mx-auto d-block" src="{{ image.image.url }}" height="580">
+                                {% else %}
+                                    <img id="image{{forloop.counter0}}" data-img-type="c" class="rounded mx-auto d-block" src="{{ image.image.url }}" width="800" height="580">
+                                {% endif %}
+                                <a id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button" class="deleteBtn" name="deleteBtn" value="{{image.id}}">
+                                    <span class="material-icons">delete</span>
+                                </a>
                             </div>
                             {% endfor %}
                             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
