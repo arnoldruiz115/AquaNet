@@ -6,16 +6,50 @@ $( function() {
     $( "ul, li" ).disableSelection();
 
     var $carousel = $('#carousel');
+
+    
+    function refreshSortables(){
+        var i = 0;
+        $('#sortable > li').each(function(){
+            $(this).attr('data-slide-to', i);
+            imageId = $(this).children().attr('img-id');
+            image_url = $(this).children().attr('src');
+
+            $("#image"+String(i)).attr("src", image_url);
+            $("#delete"+String(i)).attr("data-img-id", imageId);
+            $("#delete"+String(i)).attr('delete-img', $(this).attr('order-id'));
+
+            // check image orientation/object fit
+            // make the new image element match the image orientation/fit 
+            slideTo = $(this).attr('data-slide-to');
+            targetImage = $('#image'+slideTo);
+
+            if ($(this).children().attr("data-img-type") == 'h'){
+                targetImage.attr("width", "800");
+                targetImage.removeAttr("height");
+            }
+            else if ($(this).children().attr("data-img-type") == 'v'){
+                targetImage.attr("height", "580");
+                targetImage.removeAttr("width");
+            }
+            else{
+                targetImage.attr("height", "580");
+                targetImage.attr("width", "800");
+            }
+            i++;
+        });
+    }
+
     $('.deleteBtn').click(function(){
         // append the id of image to the list of images to be deleted
         var deleteList = $("#deleteList").val();
         if (deleteList == ""){
             // if list is empty don't add a comma
-            addedValue = deleteList + $(this).val();
+            addedValue = deleteList + $(this).attr("data-img-id");
             $("#deleteList").val(addedValue);
         }
         else{
-            addedValue = deleteList + "," + $(this).val();
+            addedValue = deleteList + "," + $(this).attr("data-img-id");
             $("#deleteList").val(addedValue);
         }
         // Make next image active image
@@ -37,46 +71,20 @@ $( function() {
 
         // update the data slide to attribute for each thumbnail after deleting an image from the list
         var i = 0;
-        $('#sortable > li').each(function(){
-            $(this).attr('data-slide-to', i)
+        $('#carousel-inner > div').each(function(){
+            $(this).attr('id', "inner-img"+String(i));
+            $(this).children("img").attr('id', "image"+String(i));
+            $(this).children("a").attr('id', "delete"+String(i));
+            $(this).children("a").attr('delete-img', i);
             i++;
-            slideNum = $(this).attr('data-slide-to');
         });
+
+        refreshSortables();
     });
 
     // Make changes when changing images order
     $( "#sortable" ).on( "sortupdate", function( event, ui ) {
-        var i = 0;
-        $('#sortable > li').each(function(){
-            $(this).attr('data-slide-to', i)
-            slideNum = $(this).attr('data-slide-to');
-            originalOrder = $(this).attr('order-id');
-            imageId = $(this).children().attr('img-id');
-            image_url = $(this).children().attr('src');
-
-            $("#image"+slideNum).attr("src", image_url);
-            $("#delete"+slideNum).val(imageId);
-            $("#delete"+slideNum).attr('delete-img', $(this).attr('order-id'));
-
-            // check image orientation/object fit
-            // original position of image is current image, new position is target image
-            // check the original image type (horizontal, vertical or cover) and make the new postion match
-            currentImage = $('#image'+originalOrder);
-            targetImage = $('#image'+slideNum);
-            if (currentImage.attr("data-img-type") == 'h'){
-                targetImage.removeAttr("height")
-                targetImage.attr("width", "800");
-            }
-            else if (currentImage.attr("data-img-type") == 'v'){
-                targetImage.attr("height", "580");
-                targetImage.removeAttr("width")
-            }
-            else{
-                targetImage.attr("height", "580");
-                targetImage.attr("width", "800");
-            }
-            i++;
-        });
+        refreshSortables();
 
         //After the sort update make the recently clicked the active image
         // clear active thumbnail and make the most recently moved thumbnail active
@@ -85,10 +93,10 @@ $( function() {
         last_moved.addClass('active');
 
         // clear active image and make the slide corresponding to the recently moved thumbnail active
-        $('.carousel-inner').children().removeClass('active');
+        currentActive = $carousel.find('.carousel-item.active');
+        currentActive.removeClass('active');
         slideTo = last_moved.attr('data-slide-to');
-        $("#inner-img" + slideTo).addClass('active');
-
+        $("#inner-img"+slideTo).addClass("active");
     });
 
     $("#uploadImage").click(function(){

@@ -25,27 +25,35 @@
                             <li id="thumb{{forloop.counter0}}" data-target="#carousel" data-slide-to="{{forloop.counter0}}"
                                 order-id="{{forloop.counter0}}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
                                 {% if image.aspect_ratio < 0.75 %}
-                                <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}" height="100">
+                                <img class="rounded mx-auto d-block" data-img-type="v" img-id="{{image.id}}" src="{{ image.image.url }}" height="100">
                                 {% elif image.aspect_ratio > 2.3 %}
-                                <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}" width="100">
+                                <img class="rounded mx-auto d-block" data-img-type="h" img-id="{{image.id}}" src="{{ image.image.url }}" width="100">
                                 {% else %}
-                                <img class="rounded mx-auto d-block" img-id="{{image.id}}" src="{{ image.image.url }}" width="100" height="100">
+                                <img class="rounded mx-auto d-block" 
+                                {% if image.aspect_ratio > 1.54 %}
+                                    data-img-type="h"
+                                {% elif image.aspect_ratio < 1.2 %}
+                                    data-img-type="v"
+                                {% else %}
+                                    data-img-type="c"  
+                                {% endif %}
+                                img-id="{{image.id}}" src="{{ image.image.url }}" width="100" height="100">
                                 {% endif %}
                             </li>
                             {% endfor %}
                         </ol>
-                        <div class="carousel-inner">
+                        <div id="carousel-inner" class="carousel-inner">
                             {% for image in profile_images %}
                             <div id="inner-img{{forloop.counter0}}"
                                 class="carousel-item inner-bg {% if forloop.counter0 == 0 %}active{% endif %}">
                                 {% if image.aspect_ratio > 1.54 %}
-                                    <img id="image{{forloop.counter0}}" data-img-type="h" class="rounded mx-auto d-block" src="{{ image.image.url }}" width="800">
+                                    <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}" width="800">
                                 {% elif image.aspect_ratio < 1.2 %}
-                                    <img id="image{{forloop.counter0}}" data-img-type="v" class="rounded mx-auto d-block" src="{{ image.image.url }}" height="580">
+                                    <img id="image{{forloop.counter0}}" class="rounded mx-auto d-block" src="{{ image.image.url }}" height="580">
                                 {% else %}
                                     <img id="image{{forloop.counter0}}" data-img-type="c" class="rounded mx-auto d-block" src="{{ image.image.url }}" width="800" height="580">
                                 {% endif %}
-                                <a id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button" class="deleteBtn" name="deleteBtn" value="{{image.id}}">
+                                <a id="delete{{forloop.counter0}}" delete-img="{{forloop.counter0}}" type="button" class="deleteBtn" name="deleteBtn" data-img-id="{{image.id}}">
                                     <span class="material-icons">delete</span>
                                 </a>
                             </div>
