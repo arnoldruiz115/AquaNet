@@ -17,36 +17,36 @@
                     <legend class="border-bottom mb-4">Upload Species</legend>
                     <div class="d-flex">
                         {% csrf_token %}
-                        <div class="w-50">
+                        <div class="w-50 mx-2">
                             {{ form.non_field_errors }}
                             <div class="form-group">
                                 {{ form.common_name.errors }}
-                                {% render_field form.common_name class="form-control w-75 mx-2" placeholder="Common Name (If any)"%}
+                                {% render_field form.common_name class="form-control w-75" placeholder="Common Name (If any)"%}
                             </div>
                             <div class="form-group">
                                 {{ form.species.errors }}
-                                {% render_field form.species class="form-control w-75 mx-2" placeholder="Species"%}
+                                {% render_field form.species class="form-control w-75" placeholder="Species"%}
                             </div>
                             <div class="form-group">
                                 {{ form.max_size.errors }}
-                                {% render_field form.max_size class="form-control w-75 mx-2" placeholder="Max Size" type="number" step="0.1"%}
+                                {% render_field form.max_size class="form-control w-75" placeholder="Max Size" type="number" step="0.1"%}
                             </div>
                             <div class="form-group">
                                 {{ form.water_type.errors }}
-                                {% render_field form.water_type class="form-control w-75 mx-2" placeholder="Water Type"%}
+                                {% render_field form.water_type class="form-control w-75" placeholder="Water Type"%}
                             </div>
                             <div class="form-group">
                                 {{ form.for_sale.errors }}
-                                {% render_field form.for_sale class="form-control w-75 mx-2" placeholder="Water Type"%}
+                                {% render_field form.for_sale class="form-control w-75" placeholder="Water Type"%}
                             </div>
                             <div class="form-group">
                                 {{ form.price.errors }}
-                                {% render_field form.price class="form-control w-75 mx-2" placeholder="Price $USD" type="number" step="0.01"%}
+                                {% render_field form.price class="form-control w-75" placeholder="Price $USD" type="number" step="0.01"%}
                             </div>
                             <!-- Additional images -->
                             {{ formset.management_form }}
                             {% for form in formset %}
-                            <div class="mt-3 image-upload-div w-75 mx-2">
+                            <div class="my-3 image-upload-div w-75">
                                 {% render_field form.image class="image-upload-box" %}
                                 <div class="upload-image-text">
                                     <div class="img-upload-prev" id="img-prev-id" style="display: none;">
@@ -58,8 +58,10 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             {% endfor %}
+                            <div class="form-group w-25">
+                                <button class="form-control btn btn-outline-info mb-2" type="submit">Submit</button>
+                            </div>
                         </div>
                         <div class="w-50">
                             <div class="form-group">
@@ -67,9 +69,6 @@
                                 {% render_field form.description class="form-control w-75 mx-2" placeholder="Additional Descriptions"%}
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-info mx-2 mb-2" type="submit">Submit</button>
                     </div>
                 </form>
             {% endif %}

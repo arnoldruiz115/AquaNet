@@ -74,14 +74,16 @@
                                 </div>
                             </a>
                             {% if species.common_name %}
-                            <div>{{species.common_name}}</div>
+                            <div class="name-div pt-1">{{species.common_name}}</div>
                             {% else %}
-                            <div>{{species.species}}</div>
+                            <div class="name-div pt-1">{{species.species}}</div>
                             {% endif %}
                             {% if species.price %}
-                            <div>${{species.price|floatformat:2}}</div>
+                            <div class="price-div pt-1">${{species.price|floatformat:2}}</div>
                             {% endif %}
-                            <small><a href="{% url 'users:profile' species.author %}">{{species.author}}</a></small>
+                            <div class="author-link">
+                                <a href="{% url 'users:profile' species.author %}">{{species.author}}</a>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>

@@ -108,4 +108,21 @@ $( function() {
         var new_order = $( "#sortable" ).sortable('toArray', {attribute: "order-id"});
         $("#orderList").val(new_order);
     });
+
+    var imagePreview  = $("#img-prev-id");
+    var defaultText = $("#default-prev-state");
+
+    $("#id_image").on('change', function(){
+        var img = $("#id_image").prop('files')[0];
+        if (img){
+            defaultText.hide();
+            imagePreview.show();
+            $("#img-preview").attr("src", window.URL.createObjectURL(img));
+        }
+
+        else{
+            imagePreview.hide();
+            defaultText.show();
+        }
+    });
  });

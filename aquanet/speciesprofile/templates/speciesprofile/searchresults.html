@@ -14,16 +14,27 @@
                             <div class="ml-3 mt-3">Size</div>
                             <hr class="search-divider">
                             <div class="form-group">
-                                <input name="minsize" id="minSize" class="form-control search-input" type="number" step="0.1" placeholder="Min Size">
+                                <input name="minsize" id="minSize" class="form-control search-input" type="number" step="0.1" placeholder="Min Size" value="{{min_size}}">
                             </div>
                             <div class="form-group">
-                                <input name="maxsize" id="maxSize" class="form-control search-input" type="number" step="0.1" placeholder="Max Size">
+                                <input name="maxsize" id="maxSize" class="form-control search-input" type="number" step="0.1" placeholder="Max Size" value="{{max_size}}">
                             </div>
                             <div class="form-group">
                                 <label for="waterSelect" class="ml-3">Water Type</label>
                                 <hr class="search-divider">
                                 <select class="form-control search-input" id="waterSelect" name="waterSelect">
-                                    <option value="Any">Any</option>
+                                    <option value="{{water_type}}" selected disabled hidden>
+                                        {% if water_type %}
+                                            {% if water_type == 'Brackish'%}
+                                            {{ water_type }} water
+                                            {% else %}
+                                            {{ water_type }}water
+                                            {% endif %}
+                                        {% else %}
+                                            Any
+                                        {% endif %}
+                                    </option>
+                                    <option value="">Any</option>
                                     <option value="Fresh">Freshwater</option>
                                     <option value="Salt">Saltwater</option>
                                     <option value="Brackish">Brackish water</option>
@@ -32,11 +43,12 @@
                             <div class="ml-3">Price</div>
                             <hr class="search-divider">
                             <div class="form-group">
-                                <input name="minprice" id="minPrice" class="form-control search-input" type="number" step="0.01" placeholder="Min Price">
+                                <input name="minprice" id="minPrice" class="form-control search-input" type="number" step="0.01" placeholder="Min Price" value="{{min_price}}">
                             </div>
                             <div class="form-group">
-                                <input name="maxprice" id="maxPrice" class="form-control search-input" type="number" step="0.01" placeholder="Max Price">
+                                <input name="maxprice" id="maxPrice" class="form-control search-input" type="number" step="0.01" placeholder="Max Price" value="{{max_price}}">
                             </div>
+                            <input type="hidden" name="search-input" id="orderList" value="{{search}}"/>
                             <div>
                                 <button class="btn btn-outline-info my-2 my-sm-0 ml-10px" name="size-search" type="submit">
                                     Search

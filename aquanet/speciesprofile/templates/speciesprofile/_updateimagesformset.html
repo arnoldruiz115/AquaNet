@@ -18,7 +18,7 @@
             </legend>
             {% csrf_token %}
             <div id="images-formset" class="carousel-container">
-                <div class="d-flex flex-row">
+                <div class="d-flex position-absolute w-75">
                     <div id="carousel" class="carousel" data-ride="carousel" data-interval="0">
                         <ol id="sortable" class="carousel-indicators">
                             {% for image in profile_images %}
@@ -68,12 +68,21 @@
                             </a>
                         </div>
                     </div>
-                    <div>
-                        <div>Add Image: {{ form.image }}</div>
+                    <div class="ml-5 w-50">
+                        <div class="my-3 image-upload-div">
+                            {% render_field form.image class="image-upload-box" %}
+                            <div class="upload-image-text">
+                                <div class="img-upload-prev" id="img-prev-id" style="display: none;">
+                                    <img src="" alt="Image Preview" id="img-preview">
+                                </div>
+                                <div id="default-prev-state">
+                                    <span class="material-icons">add_photo_alternate</span>
+                                    <div>Drag an image or click here</div>
+                                </div>
+                            </div>
+                        </div>
                         <div>
-                            <button class="btn btn-outline-info" id="uploadImage" name="uploadImage" type="submit" value="upload">
-                                Submit Image
-                            </button>
+                            <button class="form-group btn btn-outline-info" id="uploadImage" name="uploadImage" type="submit" value="upload">Submit Image</button>
                         </div>
                         <div>
                             <input type="hidden" name="deleteList" id="deleteList" value=""/>

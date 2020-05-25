@@ -10797,11 +10797,12 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .species-prev {
+  position: relative;
   background-color: #CEDDEF;
   border-radius: 15px;
   color: black;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 18px;
   height: 264px;
   width: 282px;
   text-align: center;
@@ -10813,6 +10814,21 @@ a.text-dark:hover, a.text-dark:focus {
 .species-prev a {
   font-size: 12px;
   color: #1F3C88;
+}
+
+.species-prev .name-div {
+  line-height: 1em;
+}
+
+.species-prev .author-link {
+  position: absolute;
+  bottom: 0;
+  right: .5em;
+}
+
+.species-prev .price-div {
+  font-size: 20px;
+  color: green;
 }
 
 .posts-list {
@@ -11016,6 +11032,7 @@ a.text-dark:hover, a.text-dark:focus {
 
 .image-upload-div {
   border: 4px dashed #ced4da;
+  border-radius: 0.25em;
   background: white;
   position: relative;
 }
