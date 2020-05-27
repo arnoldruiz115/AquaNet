@@ -65,22 +65,36 @@
                 <div class="search-header mt-50px">Search results for "{{ search }}"</div>
                 <div class="mt-4">
                     {% if result_list %}
-                    <div class="d-flex flex-column">
-                        {% for post in result_list %}
+                    <div class="posts-list d-flex justify-content-around">
+                        {% for species in result_list %}
                         <div class="species-prev">
-                            {% if post.thumbnail %}
-                                {% if post.thumbnail_aspect_ratio > 1.778 %}
-                                <img src="{{ post.thumbnail.url }}" width="282">
-                                {% else %}
-                                <img src="{{ post.thumbnail.url }}" height="190">
-                                {% endif %}
-                            {% endif %}
-                            {% if post.common_name %}
-                            <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.common_name}}</a></div>
+                            <a href="{% url 'speciesprofile:detail' species.id %}">
+                                <div class="img-container">
+                                    {% if species.thumbnail %}
+                                        {% if species.thumbnail_aspect_ratio < 0.75 %}
+                                            <img src="{{ species.thumbnail.url }}" height="190">
+                                        {% elif species.thumbnail_aspect_ratio > 2.3 %}
+                                            <img src="{{ species.thumbnail.url }}" width="282">
+                                        {% else %}
+                                            <img src="{{ species.thumbnail.url }}" height="190" width="282">
+                                        {% endif %}
+
+                                    {% else %}
+                                        <img src="/media/species-images/default.jpg" width="282" height="190">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% if species.common_name %}
+                            <div class="name-div pt-1">{{species.common_name}}</div>
                             {% else %}
-                            <div><a href="{% url 'speciesprofile:detail' post.id %}">{{post.species}}</a></div>
+                            <div class="name-div pt-1">{{species.species}}</div>
                             {% endif %}
-                            <small><a href="{% url 'users:profile' post.author %}">{{post.author}}</a></small>
+                            {% if species.price %}
+                            <div class="price-div pt-1">${{species.price|floatformat:2}}</div>
+                            {% endif %}
+                            <div class="author-link">
+                                <a href="{% url 'users:profile' species.author %}">{{species.author}}</a>
+                            </div>
                         </div>
                         {% endfor %}
                     </div>

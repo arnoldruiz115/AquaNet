@@ -76,6 +76,7 @@
     height: 190px;
     background: black;
     img{
+        border-radius: 15px;
         position: relative;
         top: 50%;
         -ms-transform: translateY(-50%);
@@ -213,17 +214,28 @@
     color: white;
 }
 
-.navbar-brand{
-    font-weight: bold;
-    font-size: 32px;
+.navbar-dark{
     color: white;
-}
+    .navbar-brand{
+        font-weight: bold;
+        font-size: 32px;
+    }
 
-.nav-item{
-    font-size: 20px;
-    color: white;
-    a{
-        color: white;
+    .navbar-nav{
+        .nav-item{
+            font-size: 20px;
+            color: white;
+            a{
+                color: white;
+            }
+        }
+        .nav-link{
+            border-bottom: 3px solid transparent;
+            &:hover{
+                border-bottom: 3px solid;
+                border-color: $orange;
+            }
+        }
     }
 }
 

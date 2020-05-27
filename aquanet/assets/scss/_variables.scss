@@ -1,7 +1,11 @@
 $primary: rgb(2, 92, 177);
 $secondary: rgb(208, 240, 255);
+$orange: #ff9c3f;
 
-$navbar-dark-color:                 rgba($secondary, .5);
-$navbar-dark-hover-color:           rgba($secondary, .75);
+$navbar-dark-color:                 white;
+$navbar-dark-hover-color:           $secondary;
 $navbar-dark-active-color:          $secondary;
 $navbar-dark-disabled-color:        rgba($secondary, .25);
+
+$navbar-dark-brand-color:           white;
+$navbar-dark-brand-hover-color:     $secondary;

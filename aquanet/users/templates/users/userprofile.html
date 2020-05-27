@@ -77,31 +77,35 @@
                 <h2>Posts</h2>
                 {% if posts %}
                 <div class="posts-list d-flex justify-content-around">
-                    {% for post in posts %}
+                    {% for species in posts %}
                     <div class="species-prev">
-                        <a href="{% url 'speciesprofile:detail' post.id %}">
+                        <a href="{% url 'speciesprofile:detail' species.id %}">
                             <div class="img-container">
-                                {% if post.thumbnail %}
-                                    {% if post.thumbnail_aspect_ratio < 0.75 %}
-                                        <img src="{{ post.thumbnail.url }}" height="190">
-                                    {% elif post.thumbnail_aspect_ratio > 2.3 %}
-                                        <img src="{{ post.thumbnail.url }}" width="282">
+                                {% if species.thumbnail %}
+                                    {% if species.thumbnail_aspect_ratio < 0.75 %}
+                                        <img src="{{ species.thumbnail.url }}" height="190">
+                                    {% elif species.thumbnail_aspect_ratio > 2.3 %}
+                                        <img src="{{ species.thumbnail.url }}" width="282">
                                     {% else %}
-                                        <img src="{{ post.thumbnail.url }}" height="190" width="282">
+                                        <img src="{{ species.thumbnail.url }}" height="190" width="282">
                                     {% endif %}
+
                                 {% else %}
-                                    <img src="/media/species-images/default.jpg" height="190" width="282">
+                                    <img src="/media/species-images/default.jpg" width="282" height="190">
                                 {% endif %}
                             </div>
                         </a>
-                        {% if post.common_name %}
-                            <div>{{post.common_name}}</a></div>
+                        {% if species.common_name %}
+                        <div class="name-div pt-1">{{species.common_name}}</div>
                         {% else %}
-                            <div>{{post.species}}</a></div>
+                        <div class="name-div pt-1">{{species.species}}</div>
                         {% endif %}
-                        {% if post.price %}
-                            <div>${{post.price|floatformat:2}}</div>
+                        {% if species.price %}
+                        <div class="price-div pt-1">${{species.price|floatformat:2}}</div>
                         {% endif %}
+                        <div class="author-link">
+                            <a href="{% url 'users:profile' species.author %}">{{species.author}}</a>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
