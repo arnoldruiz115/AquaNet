@@ -12,11 +12,15 @@
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        var wsStart = 'ws://'
+        if (window.location.protocol == 'https:'){
+            wsStart = 'wss://'
+        } 
 
         const chatSocket = new WebSocket(
-            'ws://'
+            wsStart
             + window.location.host
-            + '/ws/chat/'
+            + '/ws/messages/'
             + roomName
             + '/'
         );
