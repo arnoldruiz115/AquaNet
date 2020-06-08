@@ -83,8 +83,9 @@
                     </div>
                     {% if user != profile.author %}
                     <div class="ml-1">
-                        <form action="{% url 'userschat:room' profile.author.username %}">
-                            <button type="submit">Message</button>
+                        <form method="POST" action="{% url 'userschat:joinroom' %}">
+                            {% csrf_token %}
+                            <button type="submit" name="other_username" value="{{profile.author.username}}">Message</button>
                         </form>
                     </div>
                     {% endif %}
