@@ -3,6 +3,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import get_or_create_thread, Thread, Message
 from django.contrib.auth.models import User
+import datetime
+from django.utils import dateformat
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -33,22 +35,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        sender = self.sender.username
+        sender_img_url = '/media/species-images/default.jpg'
+        time_now = dateformat.format(datetime.datetime.now(), 'F j, Y, P')
         await self.create_message(message)
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'sender': sender,
+                'sender_img_url': sender_img_url,
+                'time_now': time_now
             }
         )
 
     # Receive message from room group
     async def chat_message(self, event):
         message = event['message']
+        sender = event['sender']
+        sender_img_url = event['sender_img_url']
+        time_now = event['time_now']
+        if sender == self.sender.username:
+            sender = "self"
+        else:
+            sender = "other"
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+            'sender': sender,
+            'sender_img_url': sender_img_url,
+            'time_now': time_now
         }))
 
     @database_sync_to_async

@@ -11260,6 +11260,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .chat-message-box {
+  max-width: 50%;
   position: relative;
   padding: 10px;
   background-color: #5893D4;

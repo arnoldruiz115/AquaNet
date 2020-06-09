@@ -15,7 +15,14 @@ $(document).ready(function(){
     
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        document.querySelector('#chat-log').value += (data.message + '\n');
+        if(data.sender == "self"){
+            var user_class = 'justify-content-end mb-4 mr-3';
+            var new_message = $('<div class="d-flex justify-content-end mb-4 mr-3"><div class="chat-message-box">' + data.message + '<span class="chat-time-stamp sender">' + data.time_now + '</span></div></div>');
+        }
+        else{
+            var new_message = $('<div class="d-flex justify-content-start mb-4 ml-3"><div class="chat-user-img"><img src="' + data.sender_img_url + '"></div><div class="chat-message-box">' + data.message + '<span class="chat-time-stamp reciever">' + data.time_now + '</span></div></div>');
+        }
+        $("#chat-container").append(new_message);
     };
     
     chatSocket.onclose = function(e) {
@@ -37,8 +44,4 @@ $(document).ready(function(){
         }));
         messageInputDom.value = '';
     };
-
-    $('#testBtn').click(function(){
-        $("#chat-container").append('<div class="d-flex justify-content-end mb-4 mr-3"><div class="chat-message-box">{{message}}<span class="chat-time-stamp sender">{{timenow}}</span></div></div>')
-    });
 });
