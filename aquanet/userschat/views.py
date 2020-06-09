@@ -28,7 +28,12 @@ class RoomView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context = super(RoomView, self).get_context_data(**kwargs)
         thread = self.get_object()
         messages = Message.objects.filter(thread=thread)
-        context.update({'room_name': thread.id, 'thread': thread, 'messages': messages})
+
+        if thread.first_user == self.request.user:
+            other_user = thread.second_user
+        else:
+            other_user = thread.first_user
+        context.update({'room_name': thread.id, 'thread': thread, 'chat_messages': messages, 'reciever': other_user})
         return context
 
     def test_func(self):

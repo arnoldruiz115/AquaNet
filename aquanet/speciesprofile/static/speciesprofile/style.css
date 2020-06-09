@@ -11253,6 +11253,37 @@ a.text-dark:hover, a.text-dark:focus {
   border-radius: 50%;
 }
 
+.chat-user-img img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.chat-message-box {
+  position: relative;
+  padding: 10px;
+  background-color: #5893D4;
+  margin-left: 10px;
+  border-radius: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.chat-time-stamp {
+  position: absolute;
+  bottom: -20px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.chat-time-stamp.sender {
+  right: 0;
+}
+
+.chat-time-stamp.reciever {
+  left: 0;
+}
+
 @media (min-width: 1820px) {
   .container {
     max-width: 1720px;

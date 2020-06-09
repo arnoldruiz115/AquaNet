@@ -1,58 +1,37 @@
-<!-- chat/templates/chat/room.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-    <h2>Conversation between {{thread.first_user.username}} and {{thread.second_user.username}}</h2>
-    {% for message in messages %}
-        <div>{{message.message}} - {{message.sender}}</div>
+{% extends "speciesprofile/base.html" %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <h3>Conversation with {{reciever}}</h2>
+    <div id="chat-container" class="card">
+        {% for message in chat_messages %}
+        {% if message.sender == user %}
+        <div class="d-flex justify-content-end mb-4 mr-3">
+            <div class="chat-message-box">
+                {{message.message}}
+                <span class="chat-time-stamp sender">{{message.date}}</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="d-flex justify-content-start mb-4 ml-3">
+            <div class="chat-user-img">
+                <img src="/media/species-images/default.jpg">
+            </div>
+            <div class="chat-message-box">
+                {{message.message}}
+                <span class="chat-time-stamp reciever">{{message.date}}</span>
+            </div>
+        </div>
+        {% endif %}
     {% endfor %}
+    </div>
+    <button id="testBtn">Press for mess</button>
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
     {{ room_name|json_script:"room-name" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-        var wsStart = 'ws://'
-        if (window.location.protocol == 'https:'){
-            wsStart = 'wss://'
-        } 
-
-        const chatSocket = new WebSocket(
-            wsStart
-            + window.location.host
-            + '/ws/messages/'
-            + roomName
-            + '/'
-        );
-
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script>
-</body>
-</html>
+</div>
+{% endblock content %}
+{% block scripts %}
+    <script src="{% static 'userschat/js/socket.js'%}"></script>
+{% endblock scripts %}
