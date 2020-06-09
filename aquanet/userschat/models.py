@@ -24,6 +24,9 @@ class Message(models.Model):
 
 
 def get_or_create_thread(first_user, second_user):
+    if first_user == second_user:
+        return False
+
     q1 = Thread.objects.filter(first_user=first_user, second_user=second_user)
     q2 = Thread.objects.filter(first_user=second_user, second_user=first_user)
 
@@ -41,3 +44,9 @@ def get_or_create_thread(first_user, second_user):
         new_thread.save()
         return new_thread
 
+def user_exists(username):
+    q = User.objects.filter(username=username)
+    if q:
+        return True
+    else:
+        return False
