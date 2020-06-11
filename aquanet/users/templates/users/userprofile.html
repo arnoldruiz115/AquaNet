@@ -5,9 +5,10 @@
 <div class="card">
     <div class="user-container d-flex">
         <div class="user-box">
-            <div class="profile-img"><img src="/media/species-images/default.jpg"></div>
+            <div class="profile-img"><img src="{{user_image}}"></div>
             <h2>{{profile_user.username}}</h2>
-            <div>Member since </div>
+            <div>Member since {{profile_user.date_joined}}</div>
+            <a href="{% url 'users:updateuserprofile' profile_user.username %}"><button>Edit Profile</button></a>
         </div>
         <div class="ml-50px">
             {% if user == profile_user %}

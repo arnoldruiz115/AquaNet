@@ -2,9 +2,11 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.models import User
+from django.db.models import Q
 from .models import Thread, get_or_create_thread, user_exists, Message
+from users.models import get_user_image_url
 
 @require_http_methods(["POST"])
 def get_room(request):
@@ -20,6 +22,17 @@ def get_room(request):
     return HttpResponseForbidden()
 
 
+class ThreadsView(LoginRequiredMixin, TemplateView):
+    template_name = 'userschat/threads.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ThreadsView, self).get_context_data(**kwargs)
+
+        self.threads = Thread.objects.filter(Q(first_user=self.request.user) | Q(second_user=self.request.user))   
+        context.update({'threads': self.threads})
+        return context
+
+
 class RoomView(LoginRequiredMixin, UserPassesTestMixin, DetailView): 
     model = Thread
     template_name = 'userschat/room.html'
@@ -33,7 +46,8 @@ class RoomView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             other_user = thread.second_user
         else:
             other_user = thread.first_user
-        context.update({'room_name': thread.id, 'thread': thread, 'chat_messages': messages, 'reciever': other_user})
+        other_user_image = get_user_image_url(other_user)
+        context.update({'room_name': thread.id, 'thread': thread, 'reciever_image': other_user_image, 'chat_messages': messages, 'reciever': other_user})
         return context
 
     def test_func(self):

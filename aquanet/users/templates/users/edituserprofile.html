@@ -1,0 +1,19 @@
+{% extends "speciesprofile/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="card">
+    <div class="user-box">
+        <div class="profile-img"><img src="{{user_image}}"></div>
+        <h2>{{userprofile.username}}</h2>
+        <div>Member since {{userprofile.date_joined}}</div>
+        <div>
+            <form method="POST" action="#" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

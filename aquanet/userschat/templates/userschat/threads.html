@@ -1,0 +1,25 @@
+{% extends "speciesprofile/base.html" %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <div id="threads-container" class="ml-3">
+        <div>Your messages</div>
+        <div>
+            {% for thread in threads %}
+                {% if thread.get_last_message %}
+                <div>
+                    {% if thread.first_user == user %}
+                        <img src="{{thread.get_second_user_image}}" alt="" height="50" width="50">
+                        <a href="{% url 'users:profile' thread.second_user %}">{{thread.second_user}}</a>
+                    {% else %}
+                        <img src="{{thread.get_first_user_image}}" alt="" height="50" width="50">
+                        <a href="{% url 'users:profile' thread.first_user %}">{{thread.first_user}}</a>
+                    {% endif %}
+                    : <a href="{% url 'userschat:room' thread.id%}">{{thread.get_last_message}}</a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
