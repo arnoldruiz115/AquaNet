@@ -5,6 +5,7 @@ from .models import get_or_create_thread, Thread, Message
 from django.contrib.auth.models import User
 import datetime
 from django.utils import dateformat
+from users.models import get_user_image_url
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -15,6 +16,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         usr = self.scope['user']
         self.sender = await database_sync_to_async(User.objects.get)(username=usr)
         self.thread = await database_sync_to_async(Thread.objects.get)(id=self.room_name)
+        self.sender_image = await database_sync_to_async(get_user_image_url)(self.sender)
 
         # Join room group
         await self.channel_layer.group_add(
@@ -36,7 +38,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         sender = self.sender.username
-        sender_img_url = '/media/species-images/default.jpg'
+        sender_img_url = self.sender_image
         time_now = dateformat.format(datetime.datetime.now(), 'F j, Y, P')
         await self.create_message(message)
         # Send message to room group

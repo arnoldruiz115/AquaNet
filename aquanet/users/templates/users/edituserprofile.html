@@ -7,13 +7,29 @@
         <div class="profile-img"><img src="{{user_image}}"></div>
         <h2>{{userprofile.username}}</h2>
         <div>Member since {{userprofile.date_joined}}</div>
-        <div>
-            <form method="POST" action="#" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form}}
-                <button type="submit">Update</button>
-            </form>
-        </div>
+        <form method="POST" action="#" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="user-img-upload">
+                <form method="post" action="#" enctype="multipart/form-data">
+                    <div class="my-3 image-upload-div">
+                        {% render_field form.user_image class="image-upload-box" %}
+                        <div class="upload-image-text">
+                            <div class="img-upload-prev" id="img-prev-id" style="display: none;">
+                                <img src="" alt="Image Preview" id="img-preview">
+                            </div>
+                            <div id="default-prev-state">
+                                <span class="material-icons">add_photo_alternate</span>
+                                <div>Drag an image or click here</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock content %}
+{% block scripts %}
+<script src="{% static 'speciesprofile/js/previewUserImage.js'%}"></script>
+{% endblock scripts %}

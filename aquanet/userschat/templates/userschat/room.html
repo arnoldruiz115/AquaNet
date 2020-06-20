@@ -1,8 +1,6 @@
-{% extends "speciesprofile/base.html" %}
 {% load static %}
-{% block content %}
 <div class="card">
-    <h3>Conversation with {{reciever}}</h3>
+    <h3 class="ml-3">Conversation with {{reciever}}</h3>
     <div id="chat-container" class="card">
         {% for message in chat_messages %}
         {% if message.sender == user %}
@@ -17,7 +15,7 @@
             <div class="chat-user-img">
                 <img src="{{reciever_image}}">
             </div>
-            <div class="chat-message-box">
+            <div class="chat-message-box other">
                 {{message.message}}
                 <span class="chat-time-stamp reciever">{{message.date}}</span>
             </div>
@@ -25,11 +23,10 @@
         {% endif %}
     {% endfor %}
     </div>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
+    <div class="d-flex form-group mt-2">
+        <input id="chat-message-input" class="form-control ml-3" type="text" size="100" placeholder="Type a message...">
+        <button id="chat-message-submit" type="button" value="Send"><span class="material-icons">send</span></button>
+    </div>
     {{ room_name|json_script:"room-name" }}
 </div>
-{% endblock content %}
-{% block scripts %}
-    <script src="{% static 'userschat/js/socket.js'%}"></script>
-{% endblock scripts %}
+<script src="{% static 'userschat/js/socket.js'%}"></script>

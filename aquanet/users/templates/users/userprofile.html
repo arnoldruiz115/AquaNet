@@ -8,7 +8,9 @@
             <div class="profile-img"><img src="{{user_image}}"></div>
             <h2>{{profile_user.username}}</h2>
             <div>Member since {{profile_user.date_joined}}</div>
-            <a href="{% url 'users:updateuserprofile' profile_user.username %}"><button>Edit Profile</button></a>
+            {% if user == profile_user %}
+                <a href="{% url 'users:updateuserprofile' profile_user.username %}"><button>Edit Profile</button></a>
+            {% endif %}
         </div>
         <div class="ml-50px">
             {% if user == profile_user %}

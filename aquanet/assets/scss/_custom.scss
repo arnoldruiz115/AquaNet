@@ -72,11 +72,11 @@
 .img-container{
     position: relative;
     width: 282px;
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
     height: 190px;
     background: black;
     img{
-        border-radius: 15px;
+        border-radius: 15px 15px 0 0;
         position: relative;
         top: 50%;
         -ms-transform: translateY(-50%);
@@ -289,6 +289,11 @@
     }
 }
 
+.user-img-upload{
+    width: 50%;
+    margin-left: 25%;
+}
+
 .image-upload-box{
     position: absolute;
     width: 100%;
@@ -471,6 +476,7 @@
 }
 
 .chat-message-box{
+    color: white;
     max-width: 50%;
     position: relative;
     padding: 10px;
@@ -481,7 +487,13 @@
     margin-bottom: auto;
 }
 
+.chat-message-box.other{
+    color: black;
+    background-color: #dce3e8;
+}
+
 .chat-time-stamp{
+    color: black;
     position: absolute;
     bottom: -20px;
     font-size: 11px;
@@ -494,6 +506,40 @@
 
 .chat-time-stamp.reciever{
     left: 0;
+}
+
+.threads-container{
+    margin-bottom: 50px;
+    height: fit-content;
+    width: 25%;
+    border-radius: 15px;
+    background-color: #F3F9FF;
+}
+
+.thread-divider{
+    border-width: 2px;
+    border-color: #a9d2ff;
+    margin: 0 5px 0 5px;
+    border-radius: 0.25em;
+}
+
+.thread-box{
+    transition-duration: 0.15s;
+    &:hover{
+        border-radius: 15px;
+        background-color: #c2d8ef;
+    }
+}
+
+#conversation-container{
+    margin-right: 50px;
+}
+
+#chat-message-submit{
+    border: none;
+    color: #5893D4;
+    background-color: white;
+    margin-left: 5px;
 }
 
 @media (min-width: 1820px){

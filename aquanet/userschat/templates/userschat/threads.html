@@ -2,24 +2,40 @@
 {% load static %}
 {% block content %}
 <div class="card">
-    <div id="threads-container" class="ml-3">
-        <div>Your messages</div>
-        <div>
+    <h3 class="ml-50px mt-4">Recent</h3>
+    <div id="threads-parent" class="d-flex">
+        <div class="threads-container ml-50px">
             {% for thread in threads %}
-                {% if thread.get_last_message %}
-                <div>
-                    {% if thread.first_user == user %}
-                        <img src="{{thread.get_second_user_image}}" alt="" height="50" width="50">
-                        <a href="{% url 'users:profile' thread.second_user %}">{{thread.second_user}}</a>
-                    {% else %}
-                        <img src="{{thread.get_first_user_image}}" alt="" height="50" width="50">
-                        <a href="{% url 'users:profile' thread.first_user %}">{{thread.first_user}}</a>
+                {% if forloop.counter0 != 0 %}
+                <hr class="thread-divider">
+                {% endif%}
+                <div class="thread-box d-flex p-3" data-thread-id="{{thread.id}}">
+                    {% if thread.get_last_message %}
+                        {% if thread.first_user == user %}
+                            <div class="chat-user-img">
+                                <a href="{% url 'users:profile' thread.second_user %}"><img src="{{thread.get_second_user_image}}" alt="" height="50" width="50"></a>
+                            </div>
+                            <div class="ml-2">
+                                <div class="font-weight-bold">{{thread.second_user}}</div>
+                                <div>{{thread.get_last_message}}</div>
+                            </div>
+                        {% else %}
+                            <div class="chat-user-img">
+                                <a href="{% url 'users:profile' thread.first_user %}"><img src="{{thread.get_first_user_image}}" alt="" height="50" width="50"></a>
+                            </div>
+                            <div class="ml-2">
+                                <div class="font-weight-bold">{{thread.first_user}}</div>
+                                <div>{{thread.get_last_message}}</div>
+                            </div>
+                        {% endif %}
                     {% endif %}
-                    : <a href="{% url 'userschat:room' thread.id%}">{{thread.get_last_message}}</a>
                 </div>
-                {% endif %}
             {% endfor %}
         </div>
+        <div id="conversation-container"></div>
     </div>
 </div>
 {% endblock content %}
+{% block scripts %}
+<script src="{% static 'userschat/js/openthread.js' %}"></script>
+{% endblock scripts %}
