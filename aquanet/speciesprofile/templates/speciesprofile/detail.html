@@ -2,24 +2,22 @@
 {% load static%}
 {% block content %}
 <div class="card">
-    <div class="d-flex flex-row">
-        <div>
-            {% if profile.author == user %}
-            <div>
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <button type="button" class="btn btn-secondary">Options</button>
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="{% url 'speciesprofile:update' profile.id %}">Edit Post</a>
-                            <a class="dropdown-item" href="{% url 'speciesprofile:delete' profile.id %}">Delete Post</a>
-                        </div>
+    {% if profile.author == user %}
+        <div class="d-flex justify-content-center mt-2">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-outline-info dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="{% url 'speciesprofile:update' profile.id %}">Edit Post</a>
+                        <a class="dropdown-item" href="{% url 'speciesprofile:delete' profile.id %}">Delete Post</a>
                     </div>
                 </div>
             </div>
-            {% endif %}
-
+        </div>
+    {% endif %}
+    <div class="d-flex flex-row">
+        <div>
             <div class="carousel-container">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="10000">
                     <ol id="sortable" class="carousel-indicators">
@@ -70,7 +68,8 @@
             <div class="d-flex justify-content-between">
                 <div>
                    {% if profile.common_name %}
-                    <div class="common-title">{{profile.common_name}}</div> <div class="species-title">({{profile.species}})</div>
+                    <div class="common-title">{{profile.common_name}}</div>
+                    <div class="species-title">({{profile.species}})</div>
                     {% else %}
                     <div class="common-title font-italic">{{profile.species}}</div>
                     {% endif %}
@@ -82,12 +81,10 @@
                         {% endif %}
                     </div>
                     {% if user != profile.author %}
-                    <div class="ml-1">
-                        <form method="POST" action="{% url 'userschat:joinroom' %}">
-                            {% csrf_token %}
-                            <button type="submit" name="other_username" value="{{profile.author.username}}">Message</button>
-                        </form>
-                    </div>
+                    <form method="POST" action="{% url 'userschat:joinroom' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-info ml-2 fs-24" type="submit" name="other_username" value="{{profile.author.username}}">Message</button>
+                    </form>
                     {% endif %}
                 </div>
             </div>

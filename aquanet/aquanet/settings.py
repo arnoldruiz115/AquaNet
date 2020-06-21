@@ -139,3 +139,5 @@ MEDIA_URL = "/media/"
 
 LOGIN_REDIRECT_URL = 'speciesprofile:index'
 LOGIN_URL = 'users:login'
+
+LOGOUT_REDIRECT_URL = '/'

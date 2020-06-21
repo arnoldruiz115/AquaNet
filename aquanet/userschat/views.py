@@ -2,12 +2,14 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import Thread, get_or_create_thread, user_exists, Message
 from users.models import get_user_image_url
 
+@login_required
 @require_http_methods(["POST"])
 def get_room(request):
     other_username = request.POST.get('other_username')

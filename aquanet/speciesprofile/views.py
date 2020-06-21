@@ -45,15 +45,19 @@ def search_form_page(request):
 def search_advanced(request):
     if request.method == 'GET':
         return render(request, 'speciesprofile/advancedsearch.html')
-    if request.method == 'POST':
-        search = request.POST.get('search-input')
-        result_list = Profile.objects.filter(Q(common_name__contains=search) | Q(species__contains=search))
         
+    if request.method == 'POST':
+        result_list = Profile.objects.all()
+        search = ''
         min_size = ''
         max_size = ''
         min_price = ''
         max_price = ''
         water_type = ''
+
+        if request.POST.get('search-input'):
+            search = request.POST.get('search-input')
+            result_list = Profile.objects.filter(Q(common_name__contains=search) | Q(species__contains=search))
 
         # If min size is input
         if request.POST.get('minsize'):
@@ -68,7 +72,6 @@ def search_advanced(request):
         # If water type is input
         if request.POST.get('waterSelect'):
             water_type = request.POST.get('waterSelect')
-            print(water_type)
             result_list = result_list.filter(water_type=water_type)
 
         # If price is input

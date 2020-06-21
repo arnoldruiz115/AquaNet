@@ -9,7 +9,7 @@
             <h2>{{profile_user.username}}</h2>
             <div>Member since {{profile_user.date_joined}}</div>
             {% if user == profile_user %}
-                <a href="{% url 'users:updateuserprofile' profile_user.username %}"><button>Edit Profile</button></a>
+                <a href="{% url 'users:updateuserprofile' profile_user.username %}"><button class="btn btn-outline-info mt-2">Edit Profile</button></a>
             {% endif %}
         </div>
         <div class="ml-50px">

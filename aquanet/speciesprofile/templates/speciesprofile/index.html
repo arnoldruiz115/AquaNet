@@ -10,25 +10,26 @@
                 <div>
                     <ul class="list-group ml-50px">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Bettas</a>
+                            <form class="" method="POST" action="{% url 'speciesprofile:advanced-search' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="waterSelect" value="Fresh" />
+                                <button type="submit" class="btn btn-outline-primary">Browse all freshwater</button>
+                            </form>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Catfish</a>
+                            <a href="{% url 'speciesprofile:search' 'betta splendens'%}">Bettas</a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Cichlids</a>
+                            <a href="{% url 'speciesprofile:search' 'cichlid'%}">Cichlids</a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Goldfish</a>
+                            <a href="{% url 'speciesprofile:search' 'corydoras'%}">Corydoras</a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Guppies</a>
+                            <a href="{% url 'speciesprofile:search' 'goldfish'%}">Goldfish</a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Flowerhorns</a>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="">Others</a>
+                            <a href="{% url 'speciesprofile:search' 'guppy'%}">Guppies</a>
                         </li>
                     </ul>
                 </div>
@@ -39,15 +40,25 @@
                 </div>
                 <div>
                     <ul class="list-group ml-50px">
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <a href="">Clownfish</a>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <a href="">Groupers</a>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="">Coral</a>
-                      </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <form class="" method="POST" action="{% url 'speciesprofile:advanced-search' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="waterSelect" value="Salt" />
+                                <button type="submit" class="btn btn-outline-primary">Browse all saltwater</button>
+                            </form>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'speciesprofile:search' 'angelfish'%}">Angelfish</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'speciesprofile:search' 'clownfish'%}">Clownfish</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'speciesprofile:search' 'damselfish'%}">Damselfish</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'speciesprofile:search' 'grouper'%}">Groupers</a>
+                        </li>
                     </ul>
                 </div>
             </div>
