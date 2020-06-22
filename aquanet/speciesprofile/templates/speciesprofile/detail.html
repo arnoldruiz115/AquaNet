@@ -1,7 +1,14 @@
 {% extends 'speciesprofile/base.html'%}
 {% load static%}
+
+{% block head %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock head %}
+
 {% block content %}
 <div class="card">
+    <div id="deletePopup" style="display: none;">
+    </div>
     {% if profile.author == user %}
         <div class="d-flex justify-content-center mt-2">
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -10,7 +17,7 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                         <a class="dropdown-item" href="{% url 'speciesprofile:update' profile.id %}">Edit Post</a>
-                        <a class="dropdown-item" href="{% url 'speciesprofile:delete' profile.id %}">Delete Post</a>
+                        <div id="deletePost" class="dropdown-item">Delete Post</div>
                     </div>
                 </div>
             </div>
@@ -104,4 +111,11 @@
     <h1 class="mt-150px">Google maps section</h1>
 </div>
 {% endblock %}
-
+{% block scripts %}
+<!-- Import jquery ui for dialog -->
+<script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+<script src="{% static 'speciesprofile/js/deletePostDialog.js' %}"></script>
+{% endblock scripts %}
