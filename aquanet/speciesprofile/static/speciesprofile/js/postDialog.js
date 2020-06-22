@@ -14,7 +14,7 @@ $( document ).ready(function() {
             duration: 150
         }
     });
-    
+
     $('#deletePost').click(function(){
         $('#deletePopup').dialog("open");
         $('#deletePopup').load('delete/', function(){
@@ -22,5 +22,28 @@ $( document ).ready(function() {
                 $('#deletePopup').dialog("close");
             });
         });
+    });
+
+    $('#messageUser').dialog({
+        autoOpen: false,
+        modal: false,
+        resizable: false,
+        draggable: false,
+        height: 450,
+        width: 500,
+        title: 'Send a message',
+        show: {
+            effect: "fade",
+            duration: 150
+        },
+        hide: {
+            effect: "fade",
+            duration: 150
+        }
+    });
+
+    $('#messageBtn').click(function(){
+        $('#messageUser').dialog("open");
+        $('#messageForm').load('/message/')
     });
 });

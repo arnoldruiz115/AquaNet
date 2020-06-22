@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from users.models import get_user_image_url
 
 
 # Create your models here.
@@ -17,6 +18,9 @@ class Profile(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     thumbnail = models.ImageField(upload_to='species-images', blank=True, default=None)
     thumbnail_aspect_ratio = models.FloatField(null=True, blank=True, default=None)
+
+    def get_author_image_url(self):
+        return get_user_image_url(self.author)
 
     def save(self, *args, **kwargs):
         # Modify model elements
