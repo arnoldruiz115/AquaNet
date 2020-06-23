@@ -1,6 +1,11 @@
 {% extends "speciesprofile/base.html" %}
 {% load static %}
 {% load widget_tweaks %}
+
+{% block head %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock head %}
+
 {% block content %}
 <div class="card">
     <div class="user-container d-flex">
@@ -36,15 +41,19 @@
                             </div>
                             <div class="form-group">
                                 {{ form.water_type.errors }}
-                                {% render_field form.water_type class="form-control w-75" placeholder="Water Type"%}
+                                <select class="form-control w-75" name="water_type" required="" id="id_water_type">
+                                    <option value="" selected disabled hidden>Water Type</option>
+                                    <option value="Fresh">Freshwater</option>
+                                    <option value="Salt">Saltwater</option>
+                                    <option value="Brackish">Brackish water</option>
+                                  </select>
                             </div>
-                            <div class="form-group">
-                                {{ form.for_sale.errors }}
-                                {% render_field form.for_sale class="form-control w-75" placeholder="Water Type"%}
-                            </div>
-                            <div class="form-group">
+                            <div class="input-group w-75">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
                                 {{ form.price.errors }}
-                                {% render_field form.price class="form-control w-75" placeholder="Price $USD" type="number" step="0.01"%}
+                                {% render_field form.price class="form-control w-75" placeholder="Price" type="number" step="0.01"%}
                             </div>
                             <!-- Additional images -->
                             {{ formset.management_form }}

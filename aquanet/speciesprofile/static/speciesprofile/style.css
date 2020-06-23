@@ -11185,6 +11185,11 @@ body {
   width: 16.5em;
 }
 
+.input-group.usd {
+  margin: 10px;
+  width: 16.5em;
+}
+
 .login-muted {
   margin-left: 50px;
   font-size: 18px;

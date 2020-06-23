@@ -4,14 +4,20 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from users.models import get_user_image_url
 
+WATER_TYPE = [
+    ('Fresh', 'Freshwater'),
+    ('Salt', 'Saltwater'),
+    ('Brackish', 'Brackish water'),
+]
+
 
 # Create your models here.
 class Profile(models.Model):
     common_name = models.CharField(max_length=200, blank=True)
     species = models.CharField(max_length=200)
     max_size = models.FloatField()
-    water_type = models.CharField(max_length=50)
-    for_sale = models.BooleanField(default=False)
+    water_type = models.CharField(max_length=10, choices=WATER_TYPE)
+    for_sale = models.BooleanField(default=True)
     price = models.FloatField(null=True, blank=True, default=None)
     description = models.TextField(blank=True)
     publish_date = models.DateTimeField(default=timezone.now)
