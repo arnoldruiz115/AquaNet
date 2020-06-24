@@ -8,6 +8,7 @@ from users.models import get_user_image_url
 class Thread(models.Model):
     first_user = models.ForeignKey(User, related_name="first_user", on_delete=models.CASCADE)
     second_user = models.ForeignKey(User, related_name="second_user", on_delete=models.CASCADE)
+    last_update = models.DateTimeField(default=timezone.now)
 
     def get_last_message(self):
         last_message = Message.objects.filter(thread=self.id).last()
@@ -33,6 +34,13 @@ class Message(models.Model):
 
     def __str__(self):
         return "Message from {}".format(self.sender.username)
+    
+    def save(self, *args, **kwargs):
+        super(Message, self).save(*args, **kwargs)
+        print(timezone.now())
+        self.thread.last_update = timezone.now()
+        self.thread.save()
+
 
 
 def get_or_create_thread(first_user, second_user):

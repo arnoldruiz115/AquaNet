@@ -53,7 +53,7 @@ class ThreadsView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ThreadsView, self).get_context_data(**kwargs)
 
-        self.threads = Thread.objects.filter(Q(first_user=self.request.user) | Q(second_user=self.request.user))   
+        self.threads = Thread.objects.filter(Q(first_user=self.request.user) | Q(second_user=self.request.user)).order_by('-last_update')
         context.update({'threads': self.threads})
         return context
 
