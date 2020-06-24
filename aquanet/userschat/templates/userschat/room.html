@@ -1,6 +1,6 @@
 {% load static %}
-<div class="card">
-    <h3 class="ml-3">Conversation with {{reciever}}</h3>
+<div id="conversation-card" class="card">
+    <h3 class="ml-3 mt-4">Conversation with {{reciever}}</h3>
     <div id="chat-container" class="card">
         {% for message in chat_messages %}
         {% if message.sender == user %}
@@ -26,10 +26,10 @@
     <div id="isTyping" class="ml-3" style="display: none;">
         <div>{{reciever}} is typing...</div>
     </div>
+    <div id="chatBottom"></div>
     <div class="d-flex form-group mt-2">
         <input id="chat-message-input" class="form-control ml-3" type="text" size="100" placeholder="Type a message...">
         <button id="chat-message-submit" type="button" value="Send"><span class="material-icons">send</span></button>
     </div>
     {{ room_name|json_script:"room-name" }}
 </div>
-<script src="{% static 'userschat/js/socket.js'%}"></script>

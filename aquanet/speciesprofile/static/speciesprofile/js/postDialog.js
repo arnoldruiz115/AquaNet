@@ -46,4 +46,8 @@ $( document ).ready(function() {
         $('#messageUser').dialog("open");
         $('#messageForm').load('/message/')
     });
+
+    $('#jumpToThread').click(function(){
+        window.location.href = '/messages?thread='+$(this).attr('data-thread-id');
+    });
 });

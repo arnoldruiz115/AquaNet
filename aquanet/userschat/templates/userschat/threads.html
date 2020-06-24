@@ -7,38 +7,35 @@
 
 {% block content %}
 <div class="card">
-    <h3 class="ml-50px mt-4">Recent</h3>
     <div id="threads-parent" class="d-flex">
-        <div id="threads-container" class="ml-50px">
-            {% for thread in threads %}
-                {% if forloop.counter0 != 0 %}
+        <div id="threads-container" class="ml-50px mt-4">
+            <div id="thread-header">
+                <h4 class="ml-3 mt-2">Recent</h4>
                 <hr class="thread-divider">
-                {% endif%}
-                <div class="thread-box d-flex p-3" data-thread-id="{{thread.id}}">
-                    {% if thread.get_last_message %}
-                        {% if thread.first_user == user %}
-                            <div class="chat-user-img">
+            </div>
+            {% for thread in threads %}
+                {% if thread.get_last_message %}
+                    {% if forloop.counter0 != 0 %}
+                    <hr class="thread-divider">
+                    {% endif%}
+                    <div class="thread-box d-flex p-3" data-thread-id="{{thread.id}}">
+                        <div class="chat-user-img">
+                            {% if thread.first_user == user %}
                                 <a href="{% url 'users:profile' thread.second_user %}"><img src="{{thread.get_second_user_image}}" alt="" height="50" width="50"></a>
-                            </div>
-                            <div class="ml-2">
-                                <div class="font-weight-bold">{{thread.second_user}}</div>
-                                <div>{{thread.get_last_message}}</div>
-                            </div>
-                        {% else %}
-                            <div class="chat-user-img">
+                            {% else %}
                                 <a href="{% url 'users:profile' thread.first_user %}"><img src="{{thread.get_first_user_image}}" alt="" height="50" width="50"></a>
-                            </div>
-                            <div class="ml-2">
-                                <div class="font-weight-bold">{{thread.first_user}}</div>
-                                <div>{{thread.get_last_message}}</div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
+                            {% endif %}
+                        </div>
+                        <div class="ml-2">
+                            <div class="font-weight-bold">{{thread.second_user}}</div>
+                            <div>{{thread.get_last_message}}</div>
+                        </div>
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
         <div id="conversation-container">
-            <div class="ml-2">Open a conversation by clicking on it.</div>
+            <div class="ml-2 mt-4">Open a conversation by clicking on it.</div>
         </div>
     </div>
 </div>

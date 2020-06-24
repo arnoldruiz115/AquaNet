@@ -43,6 +43,7 @@ $("document").ready(function(){
             }
             $("#chat-container").append(new_message);
         }
+        $('#chat-container').animate({ scrollTop: $('#chat-container').prop('scrollHeight') }, "slow");
     };
     
     chatSocket.onclose = function(e) {
@@ -55,10 +56,19 @@ $("document").ready(function(){
             document.querySelector('#chat-message-submit').click();
         }
     };
+
+    var empty_chat_warning = false;
     
     document.querySelector('#chat-message-submit').onclick = function(e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
+
+        if (message == ''){
+            messageInputDom.classList.add('is-invalid');
+            empty_chat_warning = true;
+            return false;
+        }
+
         chatSocket.send(JSON.stringify({
             'message_type': 'message',
             'message': message
@@ -83,6 +93,9 @@ $("document").ready(function(){
         }
         else{
             if (is_typing == 'True'){
+                if(empty_chat_warning){
+                    document.querySelector('#chat-message-input').classList.remove('is-invalid');
+                }
                 send_message = false;
             }
             is_typing = 'True';

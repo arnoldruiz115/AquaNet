@@ -102,7 +102,11 @@
                     </div>
                     <div>
                         {% if user.is_authenticated %}
-                        <button id="messageBtn" class="btn btn-outline-info ml-2 fs-24" type="button">Message</button>
+                            {% if thread_exists %}
+                                <button id="jumpToThread" class="btn btn-outline-info ml-2 fs-24" type="button" data-thread-id="{{thread.id}}">Message</button>
+                            {% else %}
+                                <button id="messageBtn" class="btn btn-outline-info ml-2 fs-24" type="button">Message</button>
+                            {% endif %}
                         {% else %}
                         <a type="button" class="btn btn-outline-info ml-2 fs-24" href="{% url 'users:login' %}?next={{request.path}}">Message</a>
                         {% endif %}

@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import Profile, ProfileImage
 from .forms import SpeciesProfileForm, SpeciesImageForm
+from userschat.models import does_thread_exist, get_or_create_thread
 
 
 # Create your views here.
@@ -103,8 +104,16 @@ class SpeciesDetailView(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SpeciesDetailView, self).get_context_data(**kwargs)
         profile = self.get_object()
+        author = profile.author
+        thread_exists = False
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            if (does_thread_exist(user, author)):
+                thread_exists = True
+                thread = get_or_create_thread(user, author)
+                context.update({'thread': thread})
         images = ProfileImage.objects.filter(profile=profile.pk).order_by('order')
-        context.update({'images': images})
+        context.update({'images': images, 'thread_exists': thread_exists})
         return context
 
 

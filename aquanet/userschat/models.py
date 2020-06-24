@@ -54,6 +54,19 @@ def get_or_create_thread(first_user, second_user):
         new_thread.save()
         return new_thread
 
+
+def does_thread_exist(first_user, second_user):
+    if first_user == second_user:
+        return False
+    q1 = Thread.objects.filter(first_user=first_user, second_user=second_user)
+    q2 = Thread.objects.filter(first_user=second_user, second_user=first_user)
+
+    if q1 or q2:
+        return True
+    else:
+        return False
+
+
 def user_exists(username):
     q = User.objects.filter(username=username)
     if q:
