@@ -36,22 +36,43 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        message_type = text_data_json['message_type']
         sender = self.sender.username
-        sender_img_url = self.sender_image
-        time_now = dateformat.format(datetime.datetime.now(), 'F j, Y, P')
-        await self.create_message(message)
-        # Send message to room group
-        await self.channel_layer.group_send(
+
+        if ( message_type == "typing"):
+            is_typing = text_data_json['is_typing']
+            await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'chat_message',
-                'message': message,
-                'sender': sender,
-                'sender_img_url': sender_img_url,
-                'time_now': time_now
+                'type': 'user_typing',
+                'is_typing': is_typing,
+                'sender': sender
             }
         )
+        elif ( message_type == "message"):
+            message = text_data_json['message']
+            sender_img_url = self.sender_image
+            time_now = dateformat.format(datetime.datetime.now(), 'F j, Y, P')
+            await self.create_message(message)
+            # Send message to room group
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'message': message,
+                    'sender': sender,
+                    'sender_img_url': sender_img_url,
+                    'time_now': time_now
+                }
+            )
+        else:
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'request_other_typing'
+                }
+            )
+
 
     # Receive message from room group
     async def chat_message(self, event):
@@ -70,6 +91,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'sender_img_url': sender_img_url,
             'time_now': time_now
         }))
+
+    async def user_typing(self, event):
+        is_typing = event['is_typing']
+        sender = event['sender']
+        if sender == self.sender.username:
+            sender = "self"
+        else:
+            sender = "other"
+        await self.send(text_data=json.dumps({
+            'is_typing': is_typing,
+            'sender': sender
+        }))
+
+    async def request_other_typing(self, event):
+        await self.send(text_data=json.dumps({
+            'init': 'request_typing' 
+        }))
+
 
     @database_sync_to_async
     def create_message(self, message):

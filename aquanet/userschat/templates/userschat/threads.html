@@ -1,10 +1,15 @@
 {% extends "speciesprofile/base.html" %}
 {% load static %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock head %}
+
 {% block content %}
 <div class="card">
     <h3 class="ml-50px mt-4">Recent</h3>
     <div id="threads-parent" class="d-flex">
-        <div class="threads-container ml-50px">
+        <div id="threads-container" class="ml-50px">
             {% for thread in threads %}
                 {% if forloop.counter0 != 0 %}
                 <hr class="thread-divider">
@@ -32,7 +37,9 @@
                 </div>
             {% endfor %}
         </div>
-        <div id="conversation-container"></div>
+        <div id="conversation-container">
+            <div class="ml-2">Open a conversation by clicking on it.</div>
+        </div>
     </div>
 </div>
 {% endblock content %}

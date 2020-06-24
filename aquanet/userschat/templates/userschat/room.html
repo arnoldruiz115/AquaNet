@@ -23,6 +23,9 @@
         {% endif %}
     {% endfor %}
     </div>
+    <div id="isTyping" class="ml-3" style="display: none;">
+        <div>{{reciever}} is typing...</div>
+    </div>
     <div class="d-flex form-group mt-2">
         <input id="chat-message-input" class="form-control ml-3" type="text" size="100" placeholder="Type a message...">
         <button id="chat-message-submit" type="button" value="Send"><span class="material-icons">send</span></button>

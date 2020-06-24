@@ -11314,7 +11314,7 @@ body {
   left: 0;
 }
 
-.threads-container {
+#threads-container {
   margin-bottom: 50px;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -11337,6 +11337,11 @@ body {
 }
 
 .thread-box:hover {
+  border-radius: 15px;
+  background-color: #c2d8ef;
+}
+
+.thread-box.active {
   border-radius: 15px;
   background-color: #c2d8ef;
 }
