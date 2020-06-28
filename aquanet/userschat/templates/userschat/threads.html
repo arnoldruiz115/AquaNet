@@ -27,9 +27,22 @@
                             {% endif %}
                         </div>
                         <div class="ml-2">
-                            <div class="font-weight-bold">{{thread.second_user}}</div>
+                            {% if thread.first_user == user %}
+                                <div class="font-weight-bold">{{thread.second_user.username}}</div>
+                            {% else %}
+                                <div class="font-weight-bold">{{thread.first_user.username}}</div>
+                            {% endif %}
                             <div>{{thread.get_last_message}}</div>
                         </div>
+                        {% if thread.first_user == user %}
+                            {% if thread.notify_first_user %}
+                                <div class="unread-notification"></div>
+                            {% endif %}
+                        {% else %}
+                            {% if thread.notify_second_user %}
+                                <div class="unread-notification"></div>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endfor %}

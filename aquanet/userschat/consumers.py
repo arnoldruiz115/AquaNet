@@ -7,16 +7,19 @@ import datetime
 from django.utils import dateformat
 from users.models import get_user_image_url
 
+
 class ChatConsumer(AsyncWebsocketConsumer):
+    connected_users = []
     async def connect(self):
         # TODO: create function to get thread/room name for two users, then make room_name = result
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
-        usr = self.scope['user']
-        self.sender = await database_sync_to_async(User.objects.get)(username=usr)
+        user = self.scope['user']
+        self.sender = user
         self.thread = await database_sync_to_async(Thread.objects.get)(id=self.room_name)
         self.sender_image = await database_sync_to_async(get_user_image_url)(self.sender)
+        self.connected_users.append(self.sender.username)
 
         # Join room group
         await self.channel_layer.group_add(
@@ -29,6 +32,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # Stop typing before disconnect 
         sender = self.sender.username
+        self.connected_users.remove(sender)
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -79,21 +83,34 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
-                    'type': 'request_other_typing'
+                    'type': 'init_chat'
                 }
             )
 
 
     # Receive message from room group
     async def chat_message(self, event):
+        user = self.scope['user']
         message = event['message']
         sender = event['sender']
         sender_img_url = event['sender_img_url']
         time_now = event['time_now']
-        if sender == self.sender.username:
+        read = False
+        if sender == user.username:
             sender = "self"
+            other_user = None
+            if self.thread.first_user == user:
+                other_user = self.thread.second_user
+            else:
+                other_user = self.thread.first_user
+            if other_user.username in self.connected_users:
+                read = True
         else:
-            sender = "other"
+            read = True
+            sender = "other"    
+        if not read:
+            await self.create_notification()
+
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
@@ -114,7 +131,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'sender': sender
         }))
 
-    async def request_other_typing(self, event):
+    async def init_chat(self, event):
+        user = self.scope['user']
+        await self.clear_notification(user)
         await self.send(text_data=json.dumps({
             'init': 'request_typing' 
         }))
@@ -124,3 +143,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def create_message(self, message):
         thread = self.thread
         return Message.objects.create(thread=thread, sender=self.sender, message=message)
+
+
+    @database_sync_to_async
+    def create_notification(self):
+        thread = self.thread
+        if (self.sender == thread.first_user):
+            thread.notify_second_user = True
+        else:
+            thread.notify_first_user = True
+        thread.save()
+
+    @database_sync_to_async
+    def clear_notification(self, user):
+        if self.thread.first_user == user:
+            if self.thread.notify_first_user:
+                self.thread.notify_first_user = False
+                self.thread.save()
+        else:
+            if self.thread.notify_second_user:
+                self.thread.notify_second_user = False
+                self.thread.save()

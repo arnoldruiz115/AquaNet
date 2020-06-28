@@ -545,6 +545,7 @@ body{
 }
 
 .thread-box{
+    position: relative;
     color: #efefef;
     transition-duration: 0.15s;
     &:hover{
@@ -558,6 +559,23 @@ body{
     color: black;
     border-radius: 15px;
     background-color: rgba(#deeeff, .40) ;
+}
+
+.unread-notification{
+    position: absolute;
+    top: 40%;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: #16bf3b;
+    border-radius: 50%;
+}
+
+.unread-notification-nav{
+    min-width: 30px;
+    height: 30px;
+    background-color: #16bf3b;
+    border-radius: 15px 15px 15px 0;
 }
 
 #thread-header{

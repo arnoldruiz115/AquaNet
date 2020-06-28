@@ -8,6 +8,9 @@ from users.models import get_user_image_url
 class Thread(models.Model):
     first_user = models.ForeignKey(User, related_name="first_user", on_delete=models.CASCADE)
     second_user = models.ForeignKey(User, related_name="second_user", on_delete=models.CASCADE)
+    # Boolean field, true if user has an unread message
+    notify_first_user = models.BooleanField(default=False)
+    notify_second_user = models.BooleanField(default=False)
     last_update = models.DateTimeField(default=timezone.now)
 
     def get_last_message(self):
@@ -37,7 +40,6 @@ class Message(models.Model):
     
     def save(self, *args, **kwargs):
         super(Message, self).save(*args, **kwargs)
-        print(timezone.now())
         self.thread.last_update = timezone.now()
         self.thread.save()
 

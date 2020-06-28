@@ -27,7 +27,12 @@
                                 <a class="nav-link" href="{% url 'users:profile' user.username %}">My Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'userschat:threads' %}">Messages</a>
+                                <a class="nav-link d-flex" href="{% url 'userschat:threads' %}">
+                                    <div>Messages</div>
+                                    {% if unread_threads > 0 %}
+                                    <div class="unread-notification-nav ml-2"><div id="navbar-notif" class="ml-2 mr-2">{{unread_threads}}</div></div>
+                                    {% endif %}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>

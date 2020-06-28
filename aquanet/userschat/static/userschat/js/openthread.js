@@ -30,11 +30,22 @@ $(document).ready(function(){
         if(currentActive){
             currentActive.removeClass('active');
         }
+        var unread = $(this).find('.unread-notification')
+        if (unread.length){
+            // Decrease notification counter by one
+            var counter = parseInt($("#navbar-notif").text());
+            if (counter == 1){
+                $(document).find('.unread-notification-nav').remove()
+            }
+            else{
+                $("#navbar-notif").text(counter - 1);
+            }
+            unread.remove();
+        }
         $(this).addClass('active');
         var thread = $(this).attr('data-thread-id');
         $('#conversation-container').load('messages/'+thread , function(){
             $.getScript('static/userschat/js/socket.js');
-            console.log($('#chat-container').prop('scrollHeight'))
             $('#chat-container').scrollTop( $('#chat-container').prop('scrollHeight') );
         });
     });
