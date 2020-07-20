@@ -32,7 +32,7 @@
                             {% else %}
                                 <div class="font-weight-bold">{{thread.first_user.username}}</div>
                             {% endif %}
-                            <div>{{thread.get_last_message}}</div>
+                            <div id="latest-message{{thread.id}}">{{thread.get_last_message}}</div>
                         </div>
                         {% if thread.first_user == user %}
                             {% if thread.notify_first_user %}

@@ -48,7 +48,7 @@ def search_advanced(request):
         return render(request, 'speciesprofile/advancedsearch.html')
         
     if request.method == 'POST':
-        result_list = Profile.objects.all()
+        result_list = Profile.objects.all().order_by('-publish_date')
         search = ''
         min_size = ''
         max_size = ''
