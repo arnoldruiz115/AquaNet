@@ -35,7 +35,7 @@ pylint==2.4.4
 pyOpenSSL==19.1.0
 pypiwin32==223
 pytz==2019.3
-pywin32==227
+pywin32==301
 requests==2.23.0
 service-identity==18.1.0
 six==1.14.0
